@@ -8,6 +8,10 @@ const nextConfig = {
       },
       {
         protocol: 'https',
+        hostname: 'static-assets.sxlcdn.com',
+      },
+      {
+        protocol: 'https',
         hostname: 'unsplash.sxlcdn.com',
       },
       {
