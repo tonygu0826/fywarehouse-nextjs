@@ -1,0 +1,24 @@
+.hero {
+  min-height: 520px;
+  display: flex;
+  align-items: center;
+  background:
+    linear-gradient(rgba(229, 239, 255, 0.72), rgba(229, 239, 255, 0.72)),
+    url('https://unsplash.sxlcdn.com/photo-1497005367839-6e852de72767?ixlib=rb-4.0.3&q=85&fm=jpg&crop=entropy&cs=srgb&h=1500&w=2000&fit=clip&fm=jpg') center/cover no-repeat;
+}
+
+.content {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.content h1 {
+  margin: 0;
+  max-width: 560px;
+  color: var(--color-black);
+  font-size: 56px;
+  line-height: 1.15;
+  text-align: right;
+  font-style: italic;
+  text-decoration: underline;
+}

@@ -1,0 +1,9 @@
+.section {
+  padding: var(--section-padding-desktop);
+}
+
+@media (max-width: 727px) {
+  .section {
+    padding: var(--section-padding-mobile);
+  }
+}

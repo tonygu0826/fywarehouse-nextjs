@@ -1,0 +1,71 @@
+:root {
+  --color-primary: #2979ff;
+  --color-primary-hover: #5393ff;
+  --color-deep-blue: #0047c2;
+  --color-navy: #00225c;
+  --color-hover-blue: #eaf2ff;
+  --color-title: #1d2023;
+  --color-text: #50555c;
+  --color-subtext: #374151;
+  --color-white: #ffffff;
+  --color-black: #000000;
+  --color-bg-light-blue: #e5efff;
+  --color-panel-gray: #f4f6f8;
+  --container-normal: 1000px;
+  --container-wide: 1200px;
+  --container-narrow: 800px;
+  --section-padding-desktop: 40px 0;
+  --section-padding-mobile: 27px 0;
+  --mobile-breakpoint: 727px;
+  --header-shadow: inset 0 -1px 0 rgba(0, 0, 0, 0.12);
+  --header-link-padding-y: 22px;
+  --header-link-padding-x: 16px;
+  --header-logo-max-width: 200px;
+  --header-logo-max-height: 62.72px;
+  --header-topbar-padding: 8px 0;
+  --header-nav-font-size: 18px;
+  --body-font-family: var(--font-primary), var(--font-fallback), sans-serif;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  min-width: 320px;
+  font-family: var(--body-font-family);
+  color: var(--color-text);
+  background: var(--color-white);
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+img {
+  max-width: 100%;
+  display: block;
+}
+
+ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+main {
+  overflow-x: hidden;
+}
+
+@media (max-width: 727px) {
+  :root {
+    --header-link-padding-y: 16px;
+    --header-link-padding-x: 12px;
+  }
+}

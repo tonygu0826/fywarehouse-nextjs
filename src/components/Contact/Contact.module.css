@@ -1,0 +1,56 @@
+.header {
+  margin-bottom: 32px;
+  text-align: center;
+}
+
+.header h2 {
+  margin: 0 0 12px;
+  color: var(--color-title);
+  font-size: 36px;
+  text-decoration: underline;
+}
+
+.header p {
+  margin: 0;
+  color: var(--color-subtext);
+  font-size: 16px;
+}
+
+.columns {
+  display: grid;
+  grid-template-columns: 0.95fr 1.05fr;
+  gap: 32px;
+}
+
+.infoPanel,
+.formShell {
+  min-height: 360px;
+  padding: 28px;
+  background: var(--color-panel-gray);
+}
+
+.infoPanel p {
+  margin: 0 0 20px;
+  color: var(--color-text);
+}
+
+.field {
+  height: 48px;
+  margin-bottom: 16px;
+  background: var(--color-white);
+  border: 1px solid rgba(0, 34, 92, 0.12);
+}
+
+.fieldLarge {
+  height: 132px;
+}
+
+.button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 48px;
+  padding: 0 18px;
+  background: var(--color-primary);
+  color: var(--color-white);
+}

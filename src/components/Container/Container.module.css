@@ -1,0 +1,22 @@
+.container {
+  width: min(calc(100% - 48px), var(--container-normal));
+  margin: 0 auto;
+}
+
+.normal {
+  max-width: var(--container-normal);
+}
+
+.wide {
+  max-width: var(--container-wide);
+}
+
+.narrow {
+  max-width: var(--container-narrow);
+}
+
+@media (max-width: 727px) {
+  .container {
+    width: min(calc(100% - 32px), 100%);
+  }
+}

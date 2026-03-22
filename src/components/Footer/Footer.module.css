@@ -1,0 +1,12 @@
+.footer {
+  padding: 40px 0;
+  background: var(--color-black);
+  color: var(--color-white);
+}
+
+.content {
+  display: grid;
+  gap: 8px;
+  justify-items: center;
+  text-align: center;
+}
