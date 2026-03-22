@@ -1,0 +1,65 @@
+.card {
+  display: grid;
+  grid-template-columns: minmax(0, 10fr) minmax(0, 6fr);
+  gap: 40px;
+  align-items: center;
+}
+
+.reverse .media {
+  order: 2;
+}
+
+.reverse .content {
+  order: 1;
+}
+
+.media {
+  position: relative;
+  min-height: 360px;
+  overflow: hidden;
+  background: var(--color-panel-gray);
+}
+
+.image {
+  object-fit: cover;
+}
+
+.content {
+  color: var(--color-text);
+}
+
+.content h3 {
+  margin: 0 0 16px;
+  color: var(--color-title);
+  font-size: 28px;
+  font-weight: 500;
+  line-height: 1.28;
+}
+
+.content p {
+  margin: 0;
+  color: var(--color-text);
+  font-size: 16px;
+  line-height: 1.75;
+}
+
+@media (max-width: 727px) {
+  .card {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 18px;
+  }
+
+  .reverse .media,
+  .reverse .content {
+    order: initial;
+  }
+
+  .media {
+    min-height: 232px;
+  }
+
+  .content h3 {
+    font-size: 24px;
+    line-height: 1.3;
+  }
+}
