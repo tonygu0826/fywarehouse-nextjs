@@ -1,0 +1,5 @@
+# Cloudflare Pages redirects
+/api/* /api/:splat 200
+
+# XML sitemap proxy (same as vercel.json)
+/sitemap.xml https://www.web-site-map.com/file.php?n=www.fywarehouse.com&t=1 200
