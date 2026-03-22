@@ -1,7 +1,9 @@
+import { BottomImage } from '@/components/BottomImage/BottomImage';
 import { Contact } from '@/components/Contact/Contact';
 import { Footer } from '@/components/Footer/Footer';
 import { Header } from '@/components/Header/Header';
 import { Hero } from '@/components/Hero/Hero';
+import { Map } from '@/components/Map/Map';
 import { Services } from '@/components/Services/Services';
 
 export default function HomePage() {
@@ -11,6 +13,8 @@ export default function HomePage() {
       <Hero />
       <Services />
       <Contact />
+      <Map />
+      <BottomImage />
       <Footer />
     </main>
   );
