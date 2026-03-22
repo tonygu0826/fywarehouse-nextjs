@@ -1,100 +1,98 @@
 import { NextResponse } from 'next/server';
-import nodemailer from 'nodemailer';
-
-type ContactPayload = {
-  firstName?: string;
-  lastName?: string;
-  email?: string;
-  phone?: string;
-  serviceRequest?: string;
-};
-
-const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-const phonePattern = /^[+()\-\s\d]{7,20}$/;
-
-function validatePayload(payload: ContactPayload) {
-  if (!payload.firstName?.trim()) return 'First Name is required.';
-  if (!payload.lastName?.trim()) return 'Last Name is required.';
-  if (!payload.email?.trim()) return 'Email Address is required.';
-  if (!emailPattern.test(payload.email)) return 'Enter a valid email address.';
-  if (!payload.phone?.trim()) return 'Phone Number is required.';
-  if (!phonePattern.test(payload.phone)) return 'Enter a valid phone number.';
-  return null;
-}
-
-function getTransportConfig() {
-  const host = process.env.EMAIL_SERVER_HOST;
-  const port = process.env.EMAIL_SERVER_PORT;
-  const user = process.env.EMAIL_SERVER_USER;
-  const pass = process.env.EMAIL_SERVER_PASSWORD;
-
-  if (!host || !port || !user || !pass) {
-    return null;
-  }
-
-  return {
-    host,
-    port: Number(port),
-    secure: Number(port) === 465,
-    auth: {
-      user,
-      pass,
-    },
-  };
-}
+import {
+  assertTrustedOrigin,
+  buildMessage,
+  classifyMailError,
+  createTransport,
+  enforceRateLimit,
+  getClientIp,
+  getMailConfig,
+  isSpamLike,
+  logContactEvent,
+  sanitizePayload,
+  type ContactPayload,
+  validatePayload,
+} from '@/lib/contact-mail';
 
 export async function POST(request: Request) {
+  const startedAt = Date.now();
+  const clientIp = getClientIp(request);
+
+  if (!assertTrustedOrigin(request)) {
+    logContactEvent('blocked.origin', { clientIp });
+    return NextResponse.json({ message: 'Invalid form origin.' }, { status: 403 });
+  }
+
+  const limit = enforceRateLimit(clientIp);
+  if (!limit.allowed) {
+    logContactEvent('blocked.rate_limit', { clientIp, retryAfterSeconds: limit.retryAfterSeconds });
+    return NextResponse.json(
+      { message: 'Too many submissions. Please wait a minute and try again.' },
+      {
+        status: 429,
+        headers: {
+          'Retry-After': String(limit.retryAfterSeconds),
+        },
+      },
+    );
+  }
+
   try {
-    const payload = (await request.json()) as ContactPayload;
+    const rawPayload = (await request.json()) as ContactPayload;
+    const payload = sanitizePayload(rawPayload);
     const validationError = validatePayload(payload);
 
     if (validationError) {
       return NextResponse.json({ message: validationError }, { status: 400 });
     }
 
-    const transportConfig = getTransportConfig();
-    const fromAddress = process.env.EMAIL_FROM;
-    const toAddress = process.env.EMAIL_TO || 'ops@fywarehouse.com';
-
-    if (!transportConfig || !fromAddress) {
-      return NextResponse.json(
-        {
-          message:
-            'Contact form is configured, but outbound email is not enabled yet. Add EMAIL_SERVER_HOST, EMAIL_SERVER_PORT, EMAIL_SERVER_USER, EMAIL_SERVER_PASSWORD, and EMAIL_FROM to activate delivery.',
-        },
-        { status: 503 },
-      );
+    if (isSpamLike(payload)) {
+      logContactEvent('blocked.spam', { clientIp, email: payload.email });
+      return NextResponse.json({ message: 'Unable to submit the contact form right now.' }, { status: 400 });
     }
 
-    const transporter = nodemailer.createTransport(transportConfig);
+    const mailConfig = getMailConfig();
+    if (!mailConfig.ok) {
+      logContactEvent('mail.unconfigured', { clientIp, missing: mailConfig.missing });
+      return NextResponse.json({ message: mailConfig.message }, { status: 503 });
+    }
 
-    await transporter.sendMail({
-      from: fromAddress,
-      to: toAddress,
+    const { transporter, from, to } = createTransport();
+    const message = buildMessage(payload);
+    const info = await transporter.sendMail({
+      from,
+      to,
       replyTo: payload.email,
-      subject: `FYWarehouse contact form: ${payload.firstName} ${payload.lastName}`,
-      text: [
-        `First Name: ${payload.firstName}`,
-        `Last Name: ${payload.lastName}`,
-        `Email Address: ${payload.email}`,
-        `Phone Number: ${payload.phone}`,
-        '',
-        'Service Request:',
-        payload.serviceRequest?.trim() || '(no message provided)',
-      ].join('\n'),
-      html: `
-        <p><strong>First Name:</strong> ${payload.firstName}</p>
-        <p><strong>Last Name:</strong> ${payload.lastName}</p>
-        <p><strong>Email Address:</strong> ${payload.email}</p>
-        <p><strong>Phone Number:</strong> ${payload.phone}</p>
-        <p><strong>Service Request:</strong></p>
-        <p>${(payload.serviceRequest?.trim() || '(no message provided)').replace(/\n/g, '<br />')}</p>
-      `,
+      ...message,
     });
 
-    return NextResponse.json({ message: 'Thanks. Our Client Services team will contact you shortly.' });
+    const durationMs = Date.now() - startedAt;
+    logContactEvent('mail.sent', {
+      clientIp,
+      durationMs,
+      accepted: info.accepted,
+      rejected: info.rejected,
+      response: info.response,
+      messageId: info.messageId,
+    });
+
+    return NextResponse.json({
+      message: 'Thanks. Our Client Services team will contact you shortly.',
+      submittedAt: new Date().toISOString(),
+      durationMs,
+      messageId: info.messageId ?? null,
+      status: 'sent',
+    });
   } catch (error) {
-    console.error('Contact form submission failed:', error);
-    return NextResponse.json({ message: 'Unable to submit the contact form right now.' }, { status: 500 });
+    const durationMs = Date.now() - startedAt;
+    const classified = classifyMailError(error);
+    logContactEvent('mail.failed', {
+      clientIp,
+      durationMs,
+      errorCode: classified.code,
+      errorMessage: error instanceof Error ? error.message : 'Unknown error',
+    });
+
+    return NextResponse.json({ message: classified.userMessage }, { status: classified.status });
   }
 }
