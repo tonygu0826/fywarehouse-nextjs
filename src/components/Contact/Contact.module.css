@@ -48,7 +48,7 @@
 
 .infoRow {
   display: grid;
-  grid-template-columns: 40px minmax(0, 1fr);
+  grid-template-columns: 44px minmax(0, 1fr);
   gap: 14px;
   align-items: start;
 }
@@ -57,8 +57,8 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 40px;
-  height: 40px;
+  width: 44px;
+  height: 44px;
   color: var(--color-deep-blue);
   font-size: 22px;
   line-height: 1;
@@ -86,11 +86,15 @@
 }
 
 a.infoValue {
+  display: inline-flex;
+  align-items: center;
+  min-height: var(--touch-target-min);
   transition: color 160ms ease;
 }
 
 a.infoValue:hover,
-a.infoValue:focus-visible {
+a.infoValue:focus-visible,
+a.infoValue:active {
   color: var(--color-primary);
 }
 
@@ -130,7 +134,7 @@ a.infoValue:focus-visible {
   background: var(--color-white);
   color: var(--color-text);
   font: inherit;
-  transition: border-color 160ms ease, box-shadow 160ms ease;
+  transition: border-color 160ms ease, box-shadow 160ms ease, transform 160ms ease;
 }
 
 .input {
@@ -186,12 +190,17 @@ a.infoValue:focus-visible {
   font-weight: 700;
   line-height: 1;
   cursor: pointer;
-  transition: background 160ms ease;
+  transition: background 160ms ease, transform 160ms ease;
 }
 
 .button:hover,
-.button:focus-visible {
+.button:focus-visible,
+.button:active {
   background: var(--color-deep-blue);
+}
+
+.button:active {
+  transform: translateY(1px);
 }
 
 .button:disabled {
@@ -226,24 +235,25 @@ a.infoValue:focus-visible {
 
 @media (max-width: 727px) {
   .header {
-    margin-bottom: 27px;
+    margin-bottom: var(--space-section-mobile);
     text-align: left;
   }
 
   .header h2 {
-    font-size: 30px;
+    font-size: var(--font-size-section-mobile);
+    line-height: var(--line-height-mobile-title);
     text-underline-offset: 6px;
   }
 
   .header p {
     margin: 12px 0 0;
-    font-size: 15px;
-    line-height: 1.7;
+    font-size: var(--font-size-body-mobile);
+    line-height: var(--line-height-mobile-copy);
   }
 
   .columns {
     grid-template-columns: minmax(0, 1fr);
-    gap: 27px;
+    gap: var(--space-section-mobile);
   }
 
   .infoPanel,
@@ -256,34 +266,46 @@ a.infoValue:focus-visible {
   }
 
   .infoRow {
-    grid-template-columns: 34px minmax(0, 1fr);
+    grid-template-columns: 44px minmax(0, 1fr);
     gap: 12px;
   }
 
-  .infoIcon {
-    width: 34px;
-    height: 34px;
-    font-size: 20px;
-  }
-
   .form {
-    gap: 16px;
+    gap: 18px;
   }
 
   .formGrid {
     grid-template-columns: minmax(0, 1fr);
-    gap: 16px;
+    gap: 18px;
+  }
+
+  .label {
+    font-size: var(--font-size-body-mobile);
+    line-height: 1.55;
+  }
+
+  .textarea {
+    min-height: 172px;
   }
 
   .actions {
+    position: sticky;
+    bottom: 8px;
     align-items: stretch;
+    padding-top: 6px;
+    background: linear-gradient(180deg, rgba(244, 246, 248, 0) 0%, rgba(244, 246, 248, 0.96) 30%);
   }
 
   .button {
     width: 100%;
   }
 
+  .recaptchaNote,
+  .feedback {
+    font-size: var(--font-size-small-mobile);
+  }
+
   .reviewBlock {
-    margin-top: 27px;
+    margin-top: var(--space-section-mobile);
   }
 }

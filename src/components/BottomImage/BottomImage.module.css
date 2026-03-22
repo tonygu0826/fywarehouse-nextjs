@@ -1,0 +1,25 @@
+.section {
+  padding: var(--space-section-desktop) 0;
+}
+
+.imageWrap {
+  width: 100%;
+  overflow: hidden;
+}
+
+.image {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+@media (max-width: 727px) {
+  .section {
+    padding: var(--space-section-mobile) 0;
+  }
+
+  .image {
+    aspect-ratio: 16 / 9;
+    object-fit: cover;
+  }
+}

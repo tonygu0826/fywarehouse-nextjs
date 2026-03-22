@@ -28,7 +28,7 @@ export function ServiceCard({
           fallbackSrc={imageFallbackSrc}
           alt={imageAlt}
           fill
-          sizes="(max-width: 727px) 100vw, 62vw"
+          sizes="(max-width: 727px) calc(100vw - 32px), (max-width: 1200px) 60vw, 620px"
           className={styles.image}
           wrapperClassName={styles.mediaInner}
         />

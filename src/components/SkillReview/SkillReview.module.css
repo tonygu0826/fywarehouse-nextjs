@@ -39,7 +39,8 @@
 
 .badge {
   min-width: 76px;
-  padding: 7px 10px;
+  min-height: var(--touch-target-min);
+  padding: 12px 10px;
   font-size: 12px;
   font-weight: 700;
   line-height: 1;
@@ -85,7 +86,7 @@
   }
 
   .header h3 {
-    font-size: 24px;
+    font-size: var(--font-size-subtitle-mobile);
   }
 
   .item {
@@ -96,5 +97,15 @@
   .badge {
     min-width: 0;
     width: fit-content;
+  }
+
+  .item strong {
+    font-size: var(--font-size-body-mobile);
+  }
+
+  .item p,
+  .note {
+    font-size: var(--font-size-small-mobile);
+    line-height: var(--line-height-mobile-copy);
   }
 }

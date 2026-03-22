@@ -23,6 +23,7 @@ export function Hero() {
           <h1>
             <strong>Warehousing and Distribution</strong>
           </h1>
+          <p className={styles.subcopy}>Fast cross-dock handling, bonded cargo support, and local distribution for Montreal freight lanes.</p>
         </div>
       </Container>
     </Section>

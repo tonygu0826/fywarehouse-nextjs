@@ -26,35 +26,35 @@
 .list {
   display: flex;
   flex-direction: column;
-  gap: 40px;
+  gap: var(--space-card-desktop);
 }
 
 .reviewBlock {
-  margin-top: 40px;
+  margin-top: var(--space-section-desktop);
 }
 
 @media (max-width: 727px) {
   .header {
-    margin-bottom: 28px;
+    margin-bottom: var(--space-section-mobile);
     text-align: left;
   }
 
   .header h2 {
-    font-size: 30px;
-    line-height: 1.25;
+    font-size: var(--font-size-section-mobile);
+    line-height: var(--line-height-mobile-title);
   }
 
   .header p {
     margin: 12px 0 0;
-    font-size: 15px;
-    line-height: 1.7;
+    font-size: var(--font-size-body-mobile);
+    line-height: var(--line-height-mobile-copy);
   }
 
   .list {
-    gap: 27px;
+    gap: var(--space-card-mobile);
   }
 
   .reviewBlock {
-    margin-top: 27px;
+    margin-top: var(--space-section-mobile);
   }
 }

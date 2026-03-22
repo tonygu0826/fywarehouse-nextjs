@@ -1,7 +1,7 @@
 .card {
   display: grid;
   grid-template-columns: minmax(0, 10fr) minmax(0, 6fr);
-  gap: 40px;
+  gap: var(--space-card-desktop);
   align-items: center;
 }
 
@@ -72,12 +72,18 @@
   }
 
   .content h3 {
-    font-size: 24px;
-    line-height: 1.3;
+    margin-bottom: 12px;
+    font-size: var(--font-size-subtitle-mobile);
+    line-height: 1.35;
+    font-weight: 700;
   }
 
   .content p {
-    font-size: 15px;
-    line-height: 1.7;
+    font-size: var(--font-size-body-mobile);
+    line-height: var(--line-height-mobile-copy);
+  }
+
+  .meta {
+    font-size: var(--font-size-detail-mobile);
   }
 }

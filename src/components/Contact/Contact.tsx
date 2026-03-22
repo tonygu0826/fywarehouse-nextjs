@@ -175,7 +175,9 @@ export function Contact() {
                   <input
                     id={`${formId}-firstName`}
                     className={styles.input}
+                    type="text"
                     autoComplete="given-name"
+                    enterKeyHint="next"
                     aria-invalid={errors.firstName ? 'true' : 'false'}
                     {...register('firstName', {
                       required: 'First Name is required.',
@@ -191,7 +193,9 @@ export function Contact() {
                   <input
                     id={`${formId}-lastName`}
                     className={styles.input}
+                    type="text"
                     autoComplete="family-name"
+                    enterKeyHint="next"
                     aria-invalid={errors.lastName ? 'true' : 'false'}
                     {...register('lastName', {
                       required: 'Last Name is required.',
@@ -210,6 +214,7 @@ export function Contact() {
                     type="email"
                     autoComplete="email"
                     inputMode="email"
+                    enterKeyHint="next"
                     aria-invalid={errors.email ? 'true' : 'false'}
                     {...register('email', {
                       required: 'Email Address is required.',
@@ -232,6 +237,7 @@ export function Contact() {
                     type="tel"
                     autoComplete="tel"
                     inputMode="tel"
+                    enterKeyHint="next"
                     aria-invalid={errors.phone ? 'true' : 'false'}
                     {...register('phone', {
                       required: 'Phone Number is required.',
@@ -253,6 +259,7 @@ export function Contact() {
                   id={`${formId}-serviceRequest`}
                   className={styles.textarea}
                   rows={6}
+                  enterKeyHint="send"
                   aria-invalid={errors.serviceRequest ? 'true' : 'false'}
                   {...register('serviceRequest')}
                 />
