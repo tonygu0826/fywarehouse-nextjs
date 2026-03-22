@@ -1,4 +1,7 @@
+'use client';
+
 import { ImageWithFallback } from '@/components/ImageWithFallback/ImageWithFallback';
+import { trackEvent } from '@/lib/analytics';
 import styles from './ServiceCard.module.css';
 
 export type ServiceCardProps = {
@@ -21,7 +24,10 @@ export function ServiceCard({
   copySource = 'live-site',
 }: ServiceCardProps) {
   return (
-    <article className={`${styles.card} ${reverse ? styles.reverse : ''}`.trim()}>
+    <article
+      className={`${styles.card} ${reverse ? styles.reverse : ''}`.trim()}
+      onClick={() => trackEvent('service_click', { service_name: title, interaction_type: 'card_click' })}
+    >
       <div className={styles.media}>
         <ImageWithFallback
           src={imageSrc}

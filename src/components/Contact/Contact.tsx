@@ -5,6 +5,7 @@ import { useForm } from 'react-hook-form';
 import { Container } from '@/components/Container/Container';
 import { Section } from '@/components/Section/Section';
 import { SkillReview, type SkillReviewCheck } from '@/components/SkillReview/SkillReview';
+import { trackEvent } from '@/lib/analytics';
 import styles from './Contact.module.css';
 
 type ContactFormValues = {
@@ -125,6 +126,9 @@ export function Contact() {
         message: result.message || 'Thanks. Our Client Services team will contact you shortly.',
       });
     } catch (error) {
+      trackEvent('contact_form_submit_error', {
+        form_id: 'contact-us',
+      });
       setSubmitState({
         type: 'error',
         message: error instanceof Error ? error.message : 'Unable to submit the contact form right now.',

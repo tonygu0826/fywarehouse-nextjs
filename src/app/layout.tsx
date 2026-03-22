@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import type { ReactNode } from 'react';
 import { Montserrat, Noto_Sans_SC } from 'next/font/google';
+import { AnalyticsShell } from '@/components/Analytics/AnalyticsShell';
 import './globals.css';
 
 const notoSansSC = Noto_Sans_SC({
@@ -26,7 +27,10 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: Readonly<{ children: ReactNode }>) {
   return (
     <html lang="en">
-      <body className={`${notoSansSC.variable} ${montserrat.variable}`}>{children}</body>
+      <body className={`${notoSansSC.variable} ${montserrat.variable}`}>
+        {children}
+        <AnalyticsShell />
+      </body>
     </html>
   );
 }

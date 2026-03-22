@@ -5,6 +5,7 @@ import { GoogleMap, useJsApiLoader } from '@react-google-maps/api';
 import { Container } from '@/components/Container/Container';
 import { Section } from '@/components/Section/Section';
 import { SkillReview, type SkillReviewCheck } from '@/components/SkillReview/SkillReview';
+import { trackEvent } from '@/lib/analytics';
 import styles from './Map.module.css';
 
 const center = {
@@ -120,7 +121,10 @@ export function Map() {
           </p>
         </div>
 
-        <div className={styles.mapShell}>
+        <div
+          className={styles.mapShell}
+          onClick={() => trackEvent('map_interaction', { location: 'map_section', interaction_type: 'map_shell_click' })}
+        >
           {!hasApiKey ? (
             <div className={styles.placeholder} role="status" aria-live="polite">
               <strong>Google Maps API key required</strong>

@@ -1,4 +1,7 @@
+'use client';
+
 import { Container } from '@/components/Container/Container';
+import { trackEvent } from '@/lib/analytics';
 import styles from './Footer.module.css';
 
 export function Footer() {
@@ -15,6 +18,13 @@ export function Footer() {
             target="_blank"
             rel="noreferrer"
             aria-label="Open Fengye Logistics XML sitemap in a new tab"
+            onClick={() =>
+              trackEvent('external_link_click', {
+                location: 'footer',
+                link_text: 'xml sitemap',
+                link_url: 'https://www.web-site-map.com/file.php?n=www.fywarehouse.com&t=1',
+              })
+            }
           >
             xlm
           </a>
