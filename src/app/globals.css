@@ -52,8 +52,11 @@ html {
 body {
   margin: 0;
   min-width: 320px;
+  font-family: 'Noto Sans SC', 'Montserrat', Arial, sans-serif;
   font-family: var(--body-font-family);
+  color: #50555c;
   color: var(--color-text);
+  background: #ffffff;
   background: var(--color-white);
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;

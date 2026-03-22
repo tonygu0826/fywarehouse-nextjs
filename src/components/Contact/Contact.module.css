@@ -17,6 +17,8 @@
 }
 
 .header p {
+  width: 100%;
+  max-width: 720px;
   width: min(100%, 720px);
   margin: 14px auto 0;
   color: var(--color-subtext);
@@ -289,6 +291,7 @@ a.infoValue:active {
   }
 
   .actions {
+    position: -webkit-sticky;
     position: sticky;
     bottom: 8px;
     align-items: stretch;

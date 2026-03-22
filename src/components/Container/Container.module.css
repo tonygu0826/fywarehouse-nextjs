@@ -1,4 +1,6 @@
 .container {
+  width: calc(100% - 48px);
+  max-width: var(--container-normal);
   width: min(calc(100% - 48px), var(--container-normal));
   margin: 0 auto;
 }
@@ -17,6 +19,8 @@
 
 @media (max-width: 727px) {
   .container {
+    width: calc(100% - 32px);
+    max-width: 100%;
     width: min(calc(100% - 32px), 100%);
   }
 }
