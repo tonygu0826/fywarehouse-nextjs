@@ -1,56 +1,289 @@
 .header {
-  margin-bottom: 32px;
+  margin-bottom: 40px;
   text-align: center;
 }
 
 .header h2 {
-  margin: 0 0 12px;
+  display: inline-block;
+  margin: 0;
   color: var(--color-title);
   font-size: 36px;
-  text-decoration: underline;
+  font-weight: 700;
+  line-height: 1.28;
+  text-decoration-line: underline;
+  text-decoration-color: var(--color-deep-blue);
+  text-decoration-thickness: 2px;
+  text-underline-offset: 8px;
 }
 
 .header p {
-  margin: 0;
+  width: min(100%, 720px);
+  margin: 14px auto 0;
   color: var(--color-subtext);
   font-size: 16px;
+  line-height: 1.75;
 }
 
 .columns {
   display: grid;
-  grid-template-columns: 0.95fr 1.05fr;
+  grid-template-columns: minmax(0, 0.95fr) minmax(0, 1.05fr);
   gap: 32px;
+  align-items: stretch;
 }
 
 .infoPanel,
-.formShell {
-  min-height: 360px;
-  padding: 28px;
+.formPanel {
+  min-width: 0;
   background: var(--color-panel-gray);
 }
 
-.infoPanel p {
-  margin: 0 0 20px;
+.infoPanel {
+  padding: 40px 34px;
+}
+
+.infoInner {
+  display: grid;
+  gap: 28px;
+}
+
+.infoRow {
+  display: grid;
+  grid-template-columns: 40px minmax(0, 1fr);
+  gap: 14px;
+  align-items: start;
+}
+
+.infoIcon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  color: var(--color-deep-blue);
+  font-size: 22px;
+  line-height: 1;
+}
+
+.infoContent {
+  min-width: 0;
+}
+
+.infoLabel {
+  margin: 0 0 6px;
+  color: var(--color-deep-blue);
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.infoValue {
+  margin: 0;
   color: var(--color-text);
+  font-size: 15px;
+  line-height: 1.8;
+  word-break: break-word;
 }
 
-.field {
-  height: 48px;
-  margin-bottom: 16px;
-  background: var(--color-white);
+a.infoValue {
+  transition: color 160ms ease;
+}
+
+a.infoValue:hover,
+a.infoValue:focus-visible {
+  color: var(--color-primary);
+}
+
+.formPanel {
+  padding: 40px 34px;
+}
+
+.form {
+  display: grid;
+  gap: 18px;
+}
+
+.formGrid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 18px 16px;
+}
+
+.fieldGroup {
+  min-width: 0;
+}
+
+.label {
+  display: block;
+  margin-bottom: 8px;
+  color: var(--color-title);
+  font-size: 15px;
+  font-weight: 600;
+  line-height: 1.45;
+}
+
+.input,
+.textarea {
+  width: 100%;
   border: 1px solid rgba(0, 34, 92, 0.12);
+  border-radius: 0;
+  background: var(--color-white);
+  color: var(--color-text);
+  font: inherit;
+  transition: border-color 160ms ease, box-shadow 160ms ease;
 }
 
-.fieldLarge {
-  height: 132px;
+.input {
+  min-height: 48px;
+  padding: 0 14px;
+}
+
+.textarea {
+  min-height: 164px;
+  padding: 12px 14px;
+  resize: vertical;
+}
+
+.input:focus,
+.textarea:focus {
+  outline: none;
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 1px var(--color-primary);
+}
+
+.input[aria-invalid='true'],
+.textarea[aria-invalid='true'] {
+  border-color: #d14343;
+}
+
+.error {
+  margin: 8px 0 0;
+  color: #b42318;
+  font-size: 13px;
+  line-height: 1.45;
+}
+
+.actions {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
 }
 
 .button {
   display: inline-flex;
   align-items: center;
   justify-content: center;
+  min-width: 152px;
   min-height: 48px;
-  padding: 0 18px;
+  padding: 0 26px;
+  border: 0;
+  border-radius: 0;
   background: var(--color-primary);
   color: var(--color-white);
+  font-size: 15px;
+  font-weight: 700;
+  line-height: 1;
+  cursor: pointer;
+  transition: background 160ms ease;
+}
+
+.button:hover,
+.button:focus-visible {
+  background: var(--color-deep-blue);
+}
+
+.button:disabled {
+  cursor: progress;
+  background: var(--color-primary-hover);
+}
+
+.recaptchaNote {
+  margin: 0;
+  color: var(--color-subtext);
+  font-size: 13px;
+  line-height: 1.6;
+}
+
+.feedback {
+  margin: 0;
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+.feedbackSuccess {
+  color: var(--color-deep-blue);
+}
+
+.feedbackError {
+  color: #b42318;
+}
+
+.reviewBlock {
+  margin-top: 40px;
+}
+
+@media (max-width: 727px) {
+  .header {
+    margin-bottom: 27px;
+    text-align: left;
+  }
+
+  .header h2 {
+    font-size: 30px;
+    text-underline-offset: 6px;
+  }
+
+  .header p {
+    margin: 12px 0 0;
+    font-size: 15px;
+    line-height: 1.7;
+  }
+
+  .columns {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 27px;
+  }
+
+  .infoPanel,
+  .formPanel {
+    padding: 27px 20px;
+  }
+
+  .infoInner {
+    gap: 22px;
+  }
+
+  .infoRow {
+    grid-template-columns: 34px minmax(0, 1fr);
+    gap: 12px;
+  }
+
+  .infoIcon {
+    width: 34px;
+    height: 34px;
+    font-size: 20px;
+  }
+
+  .form {
+    gap: 16px;
+  }
+
+  .formGrid {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 16px;
+  }
+
+  .actions {
+    align-items: stretch;
+  }
+
+  .button {
+    width: 100%;
+  }
+
+  .reviewBlock {
+    margin-top: 27px;
+  }
 }
