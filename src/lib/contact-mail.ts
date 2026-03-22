@@ -203,6 +203,15 @@ export function assertTrustedOrigin(request: Request) {
     return true;
   }
 
+  const configuredOrigin = process.env.ALLOWED_ORIGIN?.trim();
+  if (configuredOrigin) {
+    try {
+      return new URL(origin).origin === new URL(configuredOrigin).origin;
+    } catch {
+      return false;
+    }
+  }
+
   const host = request.headers.get('x-forwarded-host') || request.headers.get('host');
   if (!host) {
     return false;
