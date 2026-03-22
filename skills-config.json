@@ -1,0 +1,47 @@
+{
+  "project": "fywarehouse-nextjs",
+  "version": "1.0",
+  "skills": {
+    "ui-ux-design": {
+      "enabled": true,
+      "autoTrigger": true,
+      "triggers": [
+        "layout-change",
+        "color-update", 
+        "responsive-update",
+        "component-create",
+        "before-commit"
+      ],
+      "checks": [
+        "color-consistency",
+        "typography-consistency",
+        "responsive-breakpoints",
+        "accessibility-wcag",
+        "visual-hierarchy",
+        "spacing-system"
+      ]
+    },
+    "afrexai-agent-observability": {
+      "enabled": false,
+      "autoTrigger": false,
+      "triggers": ["build-complete", "deploy-start"],
+      "checks": [
+        "execution-visibility",
+        "cost-attribution",
+        "output-quality"
+      ]
+    },
+    "coding-agent": {
+      "enabled": false,
+      "autoTrigger": false,
+      "triggers": ["code-review", "refactor"],
+      "checks": ["best-practices", "performance", "security"]
+    }
+  },
+  "phases": {
+    "development": ["ui-ux-design"],
+    "testing": ["ui-ux-design", "afrexai-agent-observability"],
+    "deployment": ["deploy-acceptance"],
+    "operations": ["healthcheck", "afrexai-agent-observability"]
+  }
+}
