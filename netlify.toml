@@ -3,8 +3,8 @@
   publish = ".next"
 
 [build.environment]
-  NODE_VERSION = "18"
-  NPM_VERSION = "10"
+  NODE_VERSION = "20"
+  NPM_FLAGS = "--legacy-peer-deps --no-audit --no-fund"
 
 # Netlify Functions for API routes
 [functions]
