@@ -1,10 +1,9 @@
 'use client';
 
-import { useId, useState } from 'react';
+import { useId, useMemo, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { Container } from '@/components/Container/Container';
 import { Section } from '@/components/Section/Section';
-import { SkillReview, type SkillReviewCheck } from '@/components/SkillReview/SkillReview';
 import { trackEvent } from '@/lib/analytics';
 import styles from './Contact.module.css';
 
@@ -14,6 +13,7 @@ type ContactFormValues = {
   email: string;
   phone: string;
   serviceRequest: string;
+  company: string;
 };
 
 type SubmitState = {
@@ -53,34 +53,6 @@ const contactItems: ContactItem[] = [
   },
 ] as const;
 
-const reviewChecks: SkillReviewCheck[] = [
-  {
-    label: 'Color consistency',
-    status: 'pass',
-    detail: 'Brand blue (#2979ff) and deep blue (#0047c2) are preserved for accents, action state, and review surfaces.',
-  },
-  {
-    label: 'Typography hierarchy',
-    status: 'pass',
-    detail: 'The section heading remains at 36px, supporting copy at 16px, and contact/form body copy at 15px.',
-  },
-  {
-    label: 'Responsive breakpoint',
-    status: 'pass',
-    detail: 'The layout collapses at 727px to a single-column stack with mobile spacing reduced to the 27px rhythm.',
-  },
-  {
-    label: 'Spacing system',
-    status: 'pass',
-    detail: 'Desktop spacing keeps the 40px vertical rhythm while panel internals and form gaps stay consistent with the site grid.',
-  },
-  {
-    label: 'Accessibility',
-    status: 'pass',
-    detail: 'All inputs are label-associated, required fields expose validation states, and submit feedback is announced with ARIA.',
-  },
-];
-
 const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 const phonePattern = /^[+()\-\s\d]{7,20}$/;
 
@@ -91,7 +63,9 @@ export function Contact() {
     register,
     handleSubmit,
     reset,
-    formState: { errors, isSubmitting },
+    setError,
+    watch,
+    formState: { errors, isSubmitting, dirtyFields },
   } = useForm<ContactFormValues>({
     defaultValues: {
       firstName: '',
@@ -99,11 +73,28 @@ export function Contact() {
       email: '',
       phone: '',
       serviceRequest: '',
+      company: '',
     },
+    mode: 'onBlur',
   });
+
+  const serviceRequestLength = watch('serviceRequest')?.trim().length ?? 0;
+  const hasUserInput = useMemo(() => Object.keys(dirtyFields).length > 0, [dirtyFields]);
 
   const onSubmit = handleSubmit(async (values) => {
     setSubmitState({ type: 'idle', message: '' });
+
+    if (values.company.trim()) {
+      setError('company', {
+        type: 'manual',
+        message: 'Spam protection was triggered. Please clear the hidden field and try again.',
+      });
+      setSubmitState({
+        type: 'error',
+        message: 'Unable to submit the contact form right now.',
+      });
+      return;
+    }
 
     try {
       const response = await fetch('/api/contact', {
@@ -111,7 +102,10 @@ export function Contact() {
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify(values),
+        body: JSON.stringify({
+          ...values,
+          recaptcha: values.company,
+        }),
       });
 
       const result = (await response.json()) as { message?: string };
@@ -119,6 +113,10 @@ export function Contact() {
       if (!response.ok) {
         throw new Error(result.message || 'Unable to submit the contact form right now.');
       }
+
+      trackEvent('contact_form_submit_success', {
+        form_id: 'contact-us',
+      });
 
       reset();
       setSubmitState({
@@ -140,7 +138,6 @@ export function Contact() {
     <Section id="contact-us">
       <Container>
         <div className={styles.header}>
-          {/* ui-ux-design review: title locked to 36px tier, underline accent uses deep brand blue, and body copy remains at 16px/#374151. */}
           <h2>Get Our Service</h2>
           <p>Fill out the form below, and our Client Services team will contact you to kickstart the process.</p>
         </div>
@@ -170,7 +167,6 @@ export function Contact() {
 
           <div className={styles.formPanel}>
             <form className={styles.form} onSubmit={onSubmit} noValidate>
-              {/* ui-ux-design review: 727px breakpoint stacks the grid, form borders stay square, and labels remain explicit for assistive tech. */}
               <div className={styles.formGrid}>
                 <div className={styles.fieldGroup}>
                   <label className={styles.label} htmlFor={`${formId}-firstName`}>
@@ -185,6 +181,10 @@ export function Contact() {
                     aria-invalid={errors.firstName ? 'true' : 'false'}
                     {...register('firstName', {
                       required: 'First Name is required.',
+                      maxLength: {
+                        value: 80,
+                        message: 'First Name is too long.',
+                      },
                     })}
                   />
                   {errors.firstName ? <p className={styles.error}>{errors.firstName.message}</p> : null}
@@ -203,6 +203,10 @@ export function Contact() {
                     aria-invalid={errors.lastName ? 'true' : 'false'}
                     {...register('lastName', {
                       required: 'Last Name is required.',
+                      maxLength: {
+                        value: 80,
+                        message: 'Last Name is too long.',
+                      },
                     })}
                   />
                   {errors.lastName ? <p className={styles.error}>{errors.lastName.message}</p> : null}
@@ -222,6 +226,10 @@ export function Contact() {
                     aria-invalid={errors.email ? 'true' : 'false'}
                     {...register('email', {
                       required: 'Email Address is required.',
+                      maxLength: {
+                        value: 160,
+                        message: 'Email Address is too long.',
+                      },
                       pattern: {
                         value: emailPattern,
                         message: 'Enter a valid email address.',
@@ -245,6 +253,10 @@ export function Contact() {
                     aria-invalid={errors.phone ? 'true' : 'false'}
                     {...register('phone', {
                       required: 'Phone Number is required.',
+                      maxLength: {
+                        value: 30,
+                        message: 'Phone Number is too long.',
+                      },
                       pattern: {
                         value: phonePattern,
                         message: 'Enter a valid phone number.',
@@ -265,18 +277,42 @@ export function Contact() {
                   rows={6}
                   enterKeyHint="send"
                   aria-invalid={errors.serviceRequest ? 'true' : 'false'}
-                  {...register('serviceRequest')}
+                  {...register('serviceRequest', {
+                    maxLength: {
+                      value: 5000,
+                      message: 'Service Request is too long.',
+                    },
+                  })}
                 />
-                {errors.serviceRequest ? <p className={styles.error}>{errors.serviceRequest.message}</p> : null}
+                <div className={styles.fieldMeta}>
+                  {errors.serviceRequest ? <p className={styles.error}>{errors.serviceRequest.message}</p> : <span />}
+                  <p className={styles.counter} aria-live="polite">
+                    {serviceRequestLength}/5000
+                  </p>
+                </div>
               </div>
 
-              <input type="hidden" name="recaptcha" value="invisible-placeholder" />
+              <div className={styles.honeypot} aria-hidden="true">
+                <label className={styles.label} htmlFor={`${formId}-company`}>
+                  Company
+                </label>
+                <input
+                  id={`${formId}-company`}
+                  className={styles.input}
+                  type="text"
+                  tabIndex={-1}
+                  autoComplete="off"
+                  {...register('company')}
+                />
+              </div>
 
               <div className={styles.actions}>
-                <button className={styles.button} type="submit" disabled={isSubmitting}>
+                <button className={styles.button} type="submit" disabled={isSubmitting || !hasUserInput}>
                   {isSubmitting ? 'Submitting...' : 'Submit'}
                 </button>
-                <p className={styles.recaptchaNote}>Invisible reCAPTCHA placeholder is reserved for production integration.</p>
+                <p className={styles.recaptchaNote}>
+                  Server-side origin checks, rate limiting, and SMTP delivery are active. Add mail env vars in deployment to enable live delivery.
+                </p>
               </div>
 
               {submitState.message ? (
@@ -292,13 +328,6 @@ export function Contact() {
           </div>
         </div>
 
-        <div className={styles.reviewBlock}>
-          <SkillReview
-            title="Contact Section UI Review"
-            checks={reviewChecks}
-            note="This report captures the required ui-ux-design checks for color system, 36px/16px typography tiers, 727px responsive collapse, spacing rhythm, and accessible field semantics."
-          />
-        </div>
       </Container>
     </Section>
   );

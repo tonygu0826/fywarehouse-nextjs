@@ -2,7 +2,6 @@
 
 import { Container } from '@/components/Container/Container';
 import { Section } from '@/components/Section/Section';
-import { SkillReview, type SkillReviewCheck } from '@/components/SkillReview/SkillReview';
 import { trackEvent } from '@/lib/analytics';
 import styles from './Map.module.css';
 
@@ -15,34 +14,6 @@ const googleMapsHref = `https://www.google.com/maps/search/?api=1&query=${center
 const directionsHref = `https://www.google.com/maps/dir/?api=1&destination=${center.lat},${center.lng}`;
 const embedSrc =
   'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2798.5546663251907!2d-73.72142608730033!3d45.45862947095315!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x4cc917de9324fd61%3A0xa247a7adb1916783!2sMontreal%20Sufferance%20Warehouse!5e0!3m2!1szh-CN!2sca!4v1774309679919!5m2!1szh-CN!2sca';
-
-const reviewChecks: SkillReviewCheck[] = [
-  {
-    label: 'Layout placement',
-    status: 'pass',
-    detail: 'The map is inserted directly after the contact section and before the footer flow to preserve the original page order.',
-  },
-  {
-    label: 'Responsive breakpoint',
-    status: 'pass',
-    detail: '727px/1200px/1400px height tiers are preserved so the section keeps the same desktop prominence and mobile collapse.',
-  },
-  {
-    label: 'Loading strategy',
-    status: 'pass',
-    detail: 'The page now uses a lightweight Google Maps embed instead of loading the JavaScript Maps runtime and API key flow.',
-  },
-  {
-    label: 'Accessibility',
-    status: 'pass',
-    detail: 'Fallback external Google Maps links remain available and the embedded frame includes a descriptive title.',
-  },
-  {
-    label: 'Visual fidelity',
-    status: 'pass',
-    detail: 'The original FYWarehouse location remains embedded directly from Google Maps with the same destination and directions flow.',
-  },
-];
 
 export function Map() {
   const renderActions = () => (
@@ -95,13 +66,6 @@ export function Map() {
           {renderActions()}
         </div>
 
-        <div className={styles.reviewBlock}>
-          <SkillReview
-            title="Map Section UI Review"
-            checks={reviewChecks}
-            note="Developer note: the live section now uses a Google Maps embed iframe instead of the JavaScript Maps API and no longer depends on a public browser API key."
-          />
-        </div>
       </Container>
     </Section>
   );

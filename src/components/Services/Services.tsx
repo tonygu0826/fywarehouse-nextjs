@@ -1,6 +1,5 @@
 import { Container } from '@/components/Container/Container';
 import { Section } from '@/components/Section/Section';
-import { SkillReview, type SkillReviewCheck } from '@/components/SkillReview/SkillReview';
 import { ServiceCard } from './ServiceCard';
 import styles from './Services.module.css';
 
@@ -55,34 +54,6 @@ const services = [
   },
 ] as const;
 
-const reviewChecks: SkillReviewCheck[] = [
-  {
-    label: 'Color consistency',
-    status: 'pass',
-    detail: 'Service section and review panel use CSS variables only, including title, body, panel, and accent colors.',
-  },
-  {
-    label: 'Typography system',
-    status: 'pass',
-    detail: 'Noto Sans SC remains the primary site font, with 36px section title and 28px service-card heading tiers preserved.',
-  },
-  {
-    label: 'Responsive breakpoint',
-    status: 'pass',
-    detail: '727px breakpoint is maintained for stacked cards, mobile copy sizing, and condensed section spacing.',
-  },
-  {
-    label: 'Visual hierarchy',
-    status: 'pass',
-    detail: 'Section title, service title, and descriptive copy maintain clear scale separation across desktop and mobile.',
-  },
-  {
-    label: 'Spacing system',
-    status: 'pass',
-    detail: '40px desktop rhythm and 27px mobile spacing are retained via existing section/container variables and card gaps.',
-  },
-];
-
 export function Services() {
   return (
     <Section id="services" className={styles.services}>
@@ -99,12 +70,6 @@ export function Services() {
           {services.map((service, index) => (
             <ServiceCard key={service.title} {...service} reverse={index % 2 === 1} />
           ))}
-        </div>
-        <div className={styles.reviewBlock}>
-          <SkillReview
-            checks={reviewChecks}
-            note="This embedded report mirrors the active ui-ux-design skill checks configured for layout-change, responsive-update, component-create, and before-commit triggers."
-          />
         </div>
       </Container>
     </Section>
