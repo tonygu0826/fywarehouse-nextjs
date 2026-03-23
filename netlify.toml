@@ -1,15 +1,13 @@
 [build]
   command = "npm run build"
-  publish = ".next"
 
 [build.environment]
   NODE_VERSION = "20"
-  NPM_FLAGS = "--legacy-peer-deps --no-audit --no-fund"
+  NPM_FLAGS = "--no-audit --no-fund"
+  NETLIFY_NEXT_PLUGIN_SKIP = "false"
 
-# Netlify Functions for API routes
-[functions]
-  directory = ".next/server/pages/api"
-  node_bundler = "esbuild"
+[[plugins]]
+  package = "@netlify/plugin-nextjs"
 
 # Security headers
 [[headers]]
@@ -21,7 +19,7 @@
     Permissions-Policy = "camera=(), microphone=(), geolocation=(), payment=()"
     Cross-Origin-Opener-Policy = "same-origin"
     Cross-Origin-Resource-Policy = "cross-origin"
-    Content-Security-Policy = "default-src 'self'; base-uri 'self'; form-action 'self'; frame-ancestors 'self'; img-src 'self' data: blob: https://user-assets.sxlcdn.com https://static-assets.sxlcdn.com https://unsplash.sxlcdn.com https://images.unsplash.com https://maps.googleapis.com https://maps.gstatic.com; script-src 'self' 'unsafe-inline' https://maps.googleapis.com https://maps.gstatic.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' data: https://fonts.gstatic.com; connect-src 'self' https://maps.googleapis.com https://maps.gstatic.com; frame-src 'self' https://www.google.com; object-src 'none'; upgrade-insecure-requests"
+    Content-Security-Policy = "default-src 'self'; base-uri 'self'; form-action 'self'; frame-ancestors 'self'; img-src 'self' data: blob: https://user-assets.sxlcdn.com https://static-assets.sxlcdn.com https://unsplash.sxlcdn.com https://images.unsplash.com https://maps.googleapis.com https://maps.gstatic.com; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://maps.googleapis.com https://maps.gstatic.com https://static.cloudflareinsights.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' data: https://fonts.gstatic.com; connect-src 'self' https://maps.googleapis.com https://maps.gstatic.com https://static.cloudflareinsights.com; frame-src 'self' https://www.google.com; object-src 'none'; upgrade-insecure-requests"
 
 # Cache headers for static assets
 [[headers]]
@@ -39,21 +37,15 @@
   [headers.values]
     Cache-Control = "no-store"
 
-# Redirects
+# External sitemap passthrough
 [[redirects]]
   from = "/sitemap.xml"
   to = "https://www.web-site-map.com/file.php?n=www.fywarehouse.com&t=1"
   status = 200
   force = true
 
-# Fallback for client-side routing (if using dynamic routes in future)
-[[redirects]]
-  from = "/*"
-  to = "/index.html"
-  status = 200
-  conditions = {Language = ["en"], Country = ["US"]}
-
-# Environment variables for production (should be set in Netlify UI)
+# Environment variables to set in Netlify UI:
 # NEXT_PUBLIC_GOOGLE_MAPS_API_KEY
-# EMAIL_SERVER_HOST, EMAIL_SERVER_PORT, EMAIL_SERVER_USER, EMAIL_SERVER_PASSWORD
+# EMAIL_SERVER_HOST, EMAIL_SERVER_PORT, EMAIL_SERVER_SECURE, EMAIL_SERVER_USER, EMAIL_SERVER_PASSWORD
+# EMAIL_FROM, EMAIL_TO, ALLOWED_ORIGIN, CONTACT_RATE_LIMIT_WINDOW_MS, CONTACT_RATE_LIMIT_MAX
 # NEXT_PUBLIC_GA_MEASUREMENT_ID, NEXT_PUBLIC_GTM_ID
