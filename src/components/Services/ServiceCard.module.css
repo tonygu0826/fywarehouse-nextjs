@@ -1,6 +1,6 @@
 .card {
   display: grid;
-  grid-template-columns: minmax(0, 12fr) minmax(0, 4fr);
+  grid-template-columns: minmax(0, 10fr) minmax(0, 6fr);
   gap: var(--space-card-desktop);
   align-items: center;
 }
@@ -15,7 +15,7 @@
 
 .media {
   position: relative;
-  min-height: 420px;
+  min-height: 0;
   overflow: hidden;
   background: var(--color-panel-gray);
   aspect-ratio: 16 / 9;
@@ -38,7 +38,7 @@
 .content h3 {
   margin: 0 0 16px;
   color: var(--color-title);
-  font-size: 28px;
+  font-size: clamp(20px, 2.5vw, 28px);
   font-weight: 600;
   line-height: 1.28;
 }
@@ -46,7 +46,7 @@
 .content p {
   margin: 0;
   color: var(--color-deep-blue);
-  font-size: 16px;
+  font-size: clamp(15px, 1.5vw, 16px);
   line-height: 1.75;
 }
 
@@ -70,7 +70,7 @@
   }
 
   .media {
-    min-height: 280px;
+    min-height: 0;
     aspect-ratio: 16 / 9;
   }
 
@@ -93,7 +93,7 @@
 
 @media (min-width: 1200px) {
   .card {
-    grid-template-columns: minmax(0, 13fr) minmax(0, 3fr);
+    grid-template-columns: minmax(0, 12fr) minmax(0, 4fr);
     gap: 44px;
   }
   
@@ -114,7 +114,7 @@
 
 @media (min-width: 1400px) {
   .card {
-    grid-template-columns: minmax(0, 16fr) minmax(0, 2fr);
+    grid-template-columns: minmax(0, 14fr) minmax(0, 4fr);
     gap: 56px;
   }
   
