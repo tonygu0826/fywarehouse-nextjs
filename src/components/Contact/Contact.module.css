@@ -7,7 +7,7 @@
   display: inline-block;
   margin: 0;
   color: var(--color-title);
-  font-size: 36px;
+  font-size: clamp(28px, 3.5vw, 36px);
   font-weight: 700;
   line-height: 1.28;
   text-decoration-line: underline;
@@ -22,7 +22,7 @@
   width: min(100%, 720px);
   margin: 14px auto 0;
   color: var(--color-subtext);
-  font-size: 16px;
+  font-size: clamp(15px, 1.5vw, 16px);
   line-height: 1.75;
 }
 
