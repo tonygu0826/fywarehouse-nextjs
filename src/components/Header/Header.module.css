@@ -131,3 +131,35 @@
     background: var(--color-panel-gray);
   }
 }
+
+@media (min-width: 1200px) {
+  .topBarInner {
+    font-size: 16px;
+  }
+  
+  .logo {
+    max-width: 220px;
+    max-height: 69px;
+  }
+  
+  .navLink {
+    font-size: 19px;
+    padding: var(--header-link-padding-y) 20px;
+  }
+}
+
+@media (min-width: 1400px) {
+  .topBarInner {
+    font-size: 17px;
+  }
+  
+  .logo {
+    max-width: 240px;
+    max-height: 75px;
+  }
+  
+  .navLink {
+    font-size: 20px;
+    padding: var(--header-link-padding-y) 24px;
+  }
+}

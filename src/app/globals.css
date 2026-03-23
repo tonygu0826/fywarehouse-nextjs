@@ -110,12 +110,20 @@ main {
   }
 }
 
+@media (min-width: 1200px) {
+  :root {
+    --container-normal: 1100px;
+    --container-wide: 1300px;
+    --container-narrow: 900px;
+  }
+}
+
 @media (min-width: 1400px) {
   :root {
-    --container-normal: 1200px;
-    --container-wide: 1400px;
-    --container-narrow: 1000px;
-    --space-section-desktop: 56px;
-    --space-card-desktop: 48px;
+    --container-normal: 1300px;
+    --container-wide: 1600px;
+    --container-narrow: 1100px;
+    --space-section-desktop: 64px;
+    --space-card-desktop: 56px;
   }
 }

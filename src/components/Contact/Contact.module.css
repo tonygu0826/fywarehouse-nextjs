@@ -312,3 +312,161 @@ a.infoValue:active {
     margin-top: var(--space-section-mobile);
   }
 }
+
+@media (min-width: 1200px) {
+  .header {
+    margin-bottom: 48px;
+  }
+  
+  .header h2 {
+    font-size: 40px;
+  }
+  
+  .header p {
+    max-width: 800px;
+    font-size: 17px;
+  }
+  
+  .columns {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1.1fr);
+    gap: 40px;
+  }
+  
+  .infoPanel,
+  .formPanel {
+    padding: 48px 40px;
+  }
+  
+  .infoInner {
+    gap: 32px;
+  }
+  
+  .infoRow {
+    gap: 16px;
+  }
+  
+  .infoIcon {
+    width: 48px;
+    height: 48px;
+    font-size: 24px;
+  }
+  
+  .infoLabel {
+    font-size: 15px;
+  }
+  
+  .infoValue {
+    font-size: 16px;
+  }
+  
+  .form {
+    gap: 22px;
+  }
+  
+  .formGrid {
+    gap: 22px 18px;
+  }
+  
+  .label {
+    font-size: 16px;
+  }
+  
+  .input {
+    min-height: 52px;
+    padding: 0 16px;
+  }
+  
+  .textarea {
+    min-height: 180px;
+    padding: 14px 16px;
+  }
+  
+  .button {
+    min-width: 168px;
+    min-height: 52px;
+    font-size: 16px;
+  }
+  
+  .reviewBlock {
+    margin-top: 48px;
+  }
+}
+
+@media (min-width: 1400px) {
+  .header {
+    margin-bottom: 56px;
+  }
+  
+  .header h2 {
+    font-size: 44px;
+  }
+  
+  .header p {
+    max-width: 880px;
+    font-size: 18px;
+  }
+  
+  .columns {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1.2fr);
+    gap: 48px;
+  }
+  
+  .infoPanel,
+  .formPanel {
+    padding: 56px 48px;
+  }
+  
+  .infoInner {
+    gap: 36px;
+  }
+  
+  .infoRow {
+    gap: 18px;
+  }
+  
+  .infoIcon {
+    width: 52px;
+    height: 52px;
+    font-size: 26px;
+  }
+  
+  .infoLabel {
+    font-size: 16px;
+  }
+  
+  .infoValue {
+    font-size: 17px;
+  }
+  
+  .form {
+    gap: 24px;
+  }
+  
+  .formGrid {
+    gap: 24px 20px;
+  }
+  
+  .label {
+    font-size: 17px;
+  }
+  
+  .input {
+    min-height: 56px;
+    padding: 0 18px;
+  }
+  
+  .textarea {
+    min-height: 200px;
+    padding: 16px 18px;
+  }
+  
+  .button {
+    min-width: 180px;
+    min-height: 56px;
+    font-size: 17px;
+  }
+  
+  .reviewBlock {
+    margin-top: 56px;
+  }
+}

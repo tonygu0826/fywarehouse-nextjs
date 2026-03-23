@@ -120,3 +120,77 @@
     margin-top: var(--space-section-mobile);
   }
 }
+
+@media (min-width: 1200px) {
+  .header {
+    margin-bottom: 32px;
+  }
+  
+  .header h2 {
+    font-size: 40px;
+  }
+  
+  .header p {
+    max-width: 840px;
+    font-size: 17px;
+  }
+  
+  .mapFrame {
+    height: 620px;
+  }
+  
+  .placeholder {
+    min-height: 620px;
+    padding: 40px;
+  }
+  
+  .placeholder strong {
+    font-size: 24px;
+  }
+  
+  .placeholder p {
+    max-width: 700px;
+    font-size: 16px;
+  }
+  
+  .reviewBlock {
+    margin-top: 48px;
+  }
+}
+
+@media (min-width: 1400px) {
+  .header {
+    margin-bottom: 40px;
+  }
+  
+  .header h2 {
+    font-size: 44px;
+  }
+  
+  .header p {
+    max-width: 920px;
+    font-size: 18px;
+  }
+  
+  .mapFrame {
+    height: 680px;
+  }
+  
+  .placeholder {
+    min-height: 680px;
+    padding: 48px;
+  }
+  
+  .placeholder strong {
+    font-size: 26px;
+  }
+  
+  .placeholder p {
+    max-width: 760px;
+    font-size: 17px;
+  }
+  
+  .reviewBlock {
+    margin-top: 56px;
+  }
+}

@@ -91,23 +91,44 @@
   }
 }
 
-@media (min-width: 1400px) {
+@media (min-width: 1200px) {
   .card {
-    grid-template-columns: minmax(0, 14fr) minmax(0, 3fr);
-    gap: 48px;
+    grid-template-columns: minmax(0, 13fr) minmax(0, 3fr);
+    gap: 44px;
   }
   
   .media {
-    min-height: 480px;
+    min-height: 440px;
   }
   
   .content h3 {
-    font-size: 32px;
-    margin-bottom: 20px;
+    font-size: 30px;
+    margin-bottom: 18px;
   }
   
   .content p {
-    font-size: 17px;
-    line-height: 1.8;
+    font-size: 16.5px;
+    line-height: 1.78;
+  }
+}
+
+@media (min-width: 1400px) {
+  .card {
+    grid-template-columns: minmax(0, 16fr) minmax(0, 2fr);
+    gap: 56px;
+  }
+  
+  .media {
+    min-height: 520px;
+  }
+  
+  .content h3 {
+    font-size: 34px;
+    margin-bottom: 22px;
+  }
+  
+  .content p {
+    font-size: 18px;
+    line-height: 1.85;
   }
 }

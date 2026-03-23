@@ -90,3 +90,45 @@
     text-align: left;
   }
 }
+
+@media (min-width: 1200px) {
+  .hero {
+    min-height: 580px;
+  }
+  
+  .content {
+    padding: 120px 0 110px;
+    gap: 22px;
+  }
+  
+  .content h1 {
+    max-width: 620px;
+    font-size: 62px;
+  }
+  
+  .subcopy {
+    max-width: 520px;
+    font-size: 17px;
+  }
+}
+
+@media (min-width: 1400px) {
+  .hero {
+    min-height: 640px;
+  }
+  
+  .content {
+    padding: 140px 0 130px;
+    gap: 26px;
+  }
+  
+  .content h1 {
+    max-width: 700px;
+    font-size: 68px;
+  }
+  
+  .subcopy {
+    max-width: 580px;
+    font-size: 18px;
+  }
+}
