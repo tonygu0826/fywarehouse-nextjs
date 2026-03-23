@@ -18,6 +18,7 @@
   min-height: 420px;
   overflow: hidden;
   background: var(--color-panel-gray);
+  aspect-ratio: 16 / 9;
 }
 
 .mediaInner {
@@ -69,6 +70,7 @@
 
   .media {
     min-height: 280px;
+    aspect-ratio: 16 / 9;
   }
 
   .content h3 {
@@ -85,5 +87,26 @@
 
   .meta {
     font-size: var(--font-size-detail-mobile);
+  }
+}
+
+@media (min-width: 1400px) {
+  .card {
+    grid-template-columns: minmax(0, 14fr) minmax(0, 3fr);
+    gap: 48px;
+  }
+  
+  .media {
+    min-height: 480px;
+  }
+  
+  .content h3 {
+    font-size: 32px;
+    margin-bottom: 20px;
+  }
+  
+  .content p {
+    font-size: 17px;
+    line-height: 1.8;
   }
 }

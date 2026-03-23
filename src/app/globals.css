@@ -109,3 +109,13 @@ main {
     overflow-x: hidden;
   }
 }
+
+@media (min-width: 1400px) {
+  :root {
+    --container-normal: 1200px;
+    --container-wide: 1400px;
+    --container-narrow: 1000px;
+    --space-section-desktop: 56px;
+    --space-card-desktop: 48px;
+  }
+}
