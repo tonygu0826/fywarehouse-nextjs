@@ -1,6 +1,6 @@
 .card {
   display: grid;
-  grid-template-columns: minmax(0, 10fr) minmax(0, 6fr);
+  grid-template-columns: minmax(0, 12fr) minmax(0, 4fr);
   gap: var(--space-card-desktop);
   align-items: center;
 }
@@ -15,7 +15,7 @@
 
 .media {
   position: relative;
-  min-height: 360px;
+  min-height: 420px;
   overflow: hidden;
   background: var(--color-panel-gray);
 }
@@ -68,7 +68,7 @@
   }
 
   .media {
-    min-height: 232px;
+    min-height: 280px;
   }
 
   .content h3 {
