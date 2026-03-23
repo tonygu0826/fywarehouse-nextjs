@@ -1,4 +1,3 @@
-import { BottomImage } from '@/components/BottomImage/BottomImage';
 import { Contact } from '@/components/Contact/Contact';
 import { Footer } from '@/components/Footer/Footer';
 import { Header } from '@/components/Header/Header';
@@ -14,7 +13,6 @@ export default function HomePage() {
       <Services />
       <Contact />
       <Map />
-      <BottomImage />
       <Footer />
     </main>
   );
