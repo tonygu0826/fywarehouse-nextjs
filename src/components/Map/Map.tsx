@@ -44,7 +44,6 @@ export function Map() {
       <Container>
         <div className={styles.header}>
           <h2 id="fywarehouse-map-title">Our Location</h2>
-          <p>Exact Google Maps coordinates are aligned with the original FYWarehouse location in Lachine, Quebec.</p>
         </div>
 
         <div

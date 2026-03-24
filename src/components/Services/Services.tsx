@@ -61,10 +61,6 @@ export function Services() {
         <div className={styles.header}>
           {/* ui-ux-design review: section heading locked to 36px tier with container rhythm preserved */}
           <h2>Sufferance Warehouse Services</h2>
-          <p>
-            Day 3 now uses the original FY Warehouse CDN assets for all five service modules while keeping fallback imagery in
-            place during network failures.
-          </p>
         </div>
         <div className={styles.list}>
           {services.map((service, index) => (
