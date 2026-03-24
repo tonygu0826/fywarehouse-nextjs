@@ -1,7 +1,7 @@
 .wrapper {
   position: absolute;
   inset: 0;
-  background: var(--color-panel-gray);
+  background: transparent;
 }
 
 .loading {
