@@ -16,7 +16,7 @@
 .media {
   position: relative;
   min-height: 0;
-  overflow: visible;
+  overflow: hidden;
   background: transparent;
   aspect-ratio: 16 / 9;
 }
@@ -36,6 +36,7 @@
   color: var(--color-text);
   width: 100%;
   max-width: 680px;
+  min-width: 0;
 }
 
 .content h3 {
