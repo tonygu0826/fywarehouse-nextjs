@@ -1,0 +1,27 @@
+name = "fywarehouse-mail"
+compatibility_date = "2024-03-24"
+workers_dev = false
+
+# Cloudflare Pages configuration
+[env.production]
+route = "mail.fywarehouse.com/*"
+zone_name = "fywarehouse.com"
+
+# KV namespace for FYMail data storage
+kv_namespaces = [
+  { binding = "FYMAIL_KV", id = "338fae6de6594ba48f00fca2deb298fc" }
+]
+
+# Note: For daily auto-generation, set up an external cron to call:
+# curl -X POST https://fywarehouse.com/api/news/generate/auto \
+#   -H "Authorization: Bearer $NEWS_API_KEY" \
+#   -H "Content-Type: application/json"
+# Recommended: crontab "0 13 * * *" (8 AM Montreal / 1 PM UTC)
+
+# Pages site configuration
+[site]
+bucket = "./.vercel/output/static"
+# entry-point removed as per deprecation warning
+
+# Main entry point for the application
+main = ".vercel/output/static/index.js"

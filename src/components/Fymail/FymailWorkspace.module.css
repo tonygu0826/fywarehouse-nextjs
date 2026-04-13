@@ -1,0 +1,551 @@
+.page {
+  min-height: 100vh;
+  padding: 48px 24px 72px;
+  background:
+    radial-gradient(circle at top left, rgba(10, 87, 166, 0.14), transparent 28%),
+    linear-gradient(180deg, #f4f7fb 0%, #edf3f9 100%);
+  color: #12314d;
+}
+
+.hero,
+.section {
+  width: min(1280px, 100%);
+  margin: 0 auto;
+}
+
+.hero {
+  display: grid;
+  grid-template-columns: minmax(0, 1.3fr) minmax(280px, 0.7fr);
+  gap: 24px;
+  align-items: end;
+  margin-bottom: 32px;
+}
+
+.eyebrow,
+.sectionEyebrow {
+  margin: 0 0 10px;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: #0a57a6;
+}
+
+.hero h1,
+.sectionHeader h2,
+.editorHeader h3,
+.listHeader h3,
+.recordCard h4 {
+  margin: 0;
+  color: #0d2640;
+}
+
+.hero h1 {
+  font-size: clamp(2.4rem, 4vw, 4.5rem);
+  line-height: 0.96;
+  max-width: 10ch;
+}
+
+.lead {
+  max-width: 60ch;
+  margin: 16px 0 0;
+  font-size: 1.05rem;
+  line-height: 1.7;
+  color: #45617d;
+}
+
+.metrics {
+  display: grid;
+  gap: 16px;
+}
+
+.metricCard,
+.editor,
+.listPanel,
+.recordCard {
+  border: 1px solid rgba(18, 49, 77, 0.08);
+  background: rgba(255, 255, 255, 0.9);
+  box-shadow: 0 18px 50px rgba(10, 31, 57, 0.08);
+}
+
+.metricCard {
+  border-radius: 24px;
+  padding: 24px;
+}
+
+.metricCard span,
+.metricCard em {
+  display: block;
+}
+
+.metricCard span {
+  font-size: 0.9rem;
+  color: #52708e;
+}
+
+.metricCard strong {
+  display: block;
+  margin: 10px 0 4px;
+  font-size: 2.6rem;
+  line-height: 1;
+}
+
+.metricCard em {
+  font-style: normal;
+  color: #0a57a6;
+}
+
+.section {
+  margin-top: 28px;
+}
+
+.sectionHeader,
+.editorHeader,
+.listHeader,
+.recordTop,
+.actions {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.sectionHeader,
+.listHeader {
+  align-items: end;
+  margin-bottom: 18px;
+}
+
+.sectionHeader p,
+.listHeader p,
+.recordTop p,
+.feedback,
+.notes,
+.snippet,
+.metaList dd,
+.metaList dt {
+  margin: 0;
+}
+
+.feedback {
+  color: #0a57a6;
+  font-weight: 600;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: minmax(340px, 0.85fr) minmax(0, 1.15fr);
+  gap: 20px;
+}
+
+.editor,
+.listPanel {
+  border-radius: 28px;
+  padding: 24px;
+}
+
+.editor {
+  position: sticky;
+  top: 24px;
+  align-self: start;
+}
+
+.formGrid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px;
+  margin: 18px 0 20px;
+}
+
+.field {
+  display: grid;
+  gap: 8px;
+  font-size: 0.94rem;
+  color: #35506b;
+}
+
+.field span {
+  font-weight: 600;
+}
+
+.field input,
+.field select,
+.field textarea {
+  width: 100%;
+  border: 1px solid rgba(18, 49, 77, 0.14);
+  border-radius: 16px;
+  padding: 12px 14px;
+  background: #f8fbfe;
+  color: #14324c;
+}
+
+.field textarea {
+  resize: vertical;
+}
+
+.previewPanel,
+.testSendPanel {
+  margin-top: 18px;
+  padding: 18px;
+  border-radius: 22px;
+  background: #f4f8fb;
+}
+
+.variableList,
+.emptyState {
+  margin: 14px 0 0;
+  color: #58718a;
+  line-height: 1.6;
+}
+
+.previewHeader {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  align-items: end;
+}
+
+.previewHeader p {
+  margin: 0;
+  color: #58718a;
+}
+
+.previewMeta {
+  display: grid;
+  gap: 6px;
+  margin: 16px 0 14px;
+}
+
+.previewMeta strong,
+.previewMeta span {
+  display: block;
+}
+
+.previewMeta span {
+  color: #58718a;
+}
+
+.previewHtml,
+.previewText {
+  padding: 14px;
+  border-radius: 16px;
+  background: rgba(255, 255, 255, 0.92);
+  border: 1px solid rgba(18, 49, 77, 0.1);
+}
+
+.previewHtml {
+  color: #173650;
+}
+
+.previewText {
+  margin: 14px 0 0;
+  white-space: pre-wrap;
+  line-height: 1.6;
+  color: #45617d;
+}
+
+.checkboxList,
+.jobList {
+  display: grid;
+  gap: 10px;
+  margin: 14px 0;
+}
+
+.checkboxRow,
+.jobCard {
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
+  padding: 12px 14px;
+  border-radius: 16px;
+  background: rgba(255, 255, 255, 0.92);
+  border: 1px solid rgba(18, 49, 77, 0.1);
+}
+
+.checkboxRow input {
+  margin-top: 3px;
+}
+
+.jobCard {
+  flex-direction: column;
+}
+
+.jobTop,
+.jobSummary,
+.recipientTop,
+.copyRow,
+.copyReasonRow {
+  display: flex;
+  gap: 10px;
+}
+
+.jobTop {
+  width: 100%;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
+.jobSummary {
+  flex-direction: column;
+}
+
+.jobDetails {
+  display: grid;
+  gap: 10px;
+  width: 100%;
+}
+
+.filterBar {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.filterBar + .field {
+  margin-top: 4px;
+}
+
+.filterButton,
+.filterButtonActive {
+  border: 0;
+  border-radius: 999px;
+  padding: 8px 12px;
+  cursor: pointer;
+  font: inherit;
+}
+
+.filterButton {
+  background: #e7f0fa;
+  color: #0f4372;
+}
+
+.filterButtonActive {
+  background: #0a57a6;
+  color: #fff;
+}
+
+.recipientCard {
+  padding: 12px 14px;
+  border-radius: 16px;
+  background: #f4f8fb;
+  border: 1px solid rgba(18, 49, 77, 0.1);
+}
+
+.recipientTop {
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
+.copyRow,
+.copyReasonRow {
+  align-items: center;
+}
+
+.copyRow {
+  flex-wrap: wrap;
+}
+
+.recipientMeta {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+  margin: 12px 0;
+}
+
+.recipientMeta dt,
+.recipientMeta dd,
+.recipientReason {
+  margin: 0;
+}
+
+.recipientMeta dt {
+  margin-bottom: 4px;
+  font-size: 0.78rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: #698198;
+}
+
+.recipientMeta dd {
+  color: #173650;
+  word-break: break-word;
+}
+
+.copyValue {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.recipientReason {
+  color: #45617d;
+  line-height: 1.6;
+}
+
+.copyButton {
+  border: 0;
+  border-radius: 999px;
+  padding: 6px 10px;
+  cursor: pointer;
+  font: inherit;
+  background: #e7f0fa;
+  color: #0f4372;
+}
+
+.badgeError {
+  display: inline-flex;
+  align-items: center;
+  border-radius: 999px;
+  padding: 6px 10px;
+  font-size: 0.8rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  background: #fff0ee;
+  color: #b64532;
+}
+
+.fieldFull {
+  grid-column: 1 / -1;
+}
+
+.primaryButton,
+.secondaryButton,
+.dangerButton {
+  border-radius: 999px;
+  padding: 12px 18px;
+  border: 0;
+  cursor: pointer;
+  transition: transform 0.18s ease, opacity 0.18s ease;
+}
+
+.primaryButton:hover,
+.secondaryButton:hover,
+.dangerButton:hover {
+  transform: translateY(-1px);
+}
+
+.primaryButton {
+  background: linear-gradient(135deg, #0a57a6, #0f7adb);
+  color: #fff;
+  font-weight: 700;
+}
+
+.secondaryButton {
+  background: #e7f0fa;
+  color: #0f4372;
+}
+
+.dangerButton {
+  background: #fff0ee;
+  color: #b64532;
+}
+
+.cardList {
+  display: grid;
+  gap: 14px;
+}
+
+.recordCard {
+  border-radius: 22px;
+  padding: 18px;
+}
+
+.recordTop {
+  align-items: start;
+  margin-bottom: 14px;
+}
+
+.recordTop p {
+  margin-top: 6px;
+  color: #58718a;
+}
+
+.badgeActive,
+.badgeMuted {
+  display: inline-flex;
+  align-items: center;
+  border-radius: 999px;
+  padding: 6px 10px;
+  font-size: 0.8rem;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+.badgeActive {
+  background: #e3f6eb;
+  color: #1d7a4f;
+}
+
+.badgeMuted {
+  background: #eef3f8;
+  color: #667d94;
+}
+
+.metaList {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+  margin-bottom: 14px;
+}
+
+.metaList dt {
+  margin-bottom: 4px;
+  font-size: 0.78rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: #698198;
+}
+
+.metaList dd {
+  color: #173650;
+}
+
+.notes,
+.snippet {
+  padding: 12px 14px;
+  border-radius: 16px;
+  background: #f4f8fb;
+  line-height: 1.6;
+  color: #45617d;
+  white-space: pre-wrap;
+}
+
+.actions {
+  margin-top: 14px;
+}
+
+@media (max-width: 980px) {
+  .hero,
+  .grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .editor {
+    position: static;
+  }
+}
+
+@media (max-width: 640px) {
+  .page {
+    padding: 32px 16px 48px;
+  }
+
+  .formGrid,
+  .metaList,
+  .recipientMeta {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .sectionHeader,
+  .editorHeader,
+  .listHeader,
+  .recordTop,
+  .actions,
+  .previewHeader,
+  .jobTop,
+  .recipientTop,
+  .copyReasonRow {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}
