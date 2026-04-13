@@ -1,5 +1,6 @@
 'use client';
 
+import Link from 'next/link';
 import { ImageWithFallback } from '@/components/ImageWithFallback/ImageWithFallback';
 import { trackEvent } from '@/lib/analytics';
 import styles from './ServiceCard.module.css';
@@ -12,6 +13,8 @@ export type ServiceCardProps = {
   imageAlt: string;
   reverse?: boolean;
   copySource?: 'live-site' | 'temporary';
+  index?: number;
+  slug?: string;
 };
 
 export function ServiceCard({
@@ -22,7 +25,11 @@ export function ServiceCard({
   imageAlt,
   reverse = false,
   copySource = 'live-site',
+  index = 0,
+  slug,
 }: ServiceCardProps) {
+  const number = String(index + 1).padStart(2, '0');
+
   return (
     <article
       className={`${styles.card} ${reverse ? styles.reverse : ''}`.trim()}
@@ -40,12 +47,17 @@ export function ServiceCard({
         />
       </div>
       <div className={styles.content}>
-        {/* ui-ux-design review: 28px heading tier, CSS variable colors only, 727px stack order maintained */}
+        <span className={styles.number}>{number}</span>
         <h3>{title}</h3>
         <p>{description}</p>
         {copySource === 'temporary' ? (
           <span className={styles.meta}>Temporary copy pending exact source verification.</span>
         ) : null}
+        {slug && (
+          <Link href={`/services/${slug}`} className={styles.learnMore}>
+            Learn More →
+          </Link>
+        )}
       </div>
     </article>
   );

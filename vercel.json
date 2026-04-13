@@ -70,10 +70,5 @@
       ]
     }
   ],
-  "rewrites": [
-    {
-      "source": "/sitemap.xml",
-      "destination": "https://www.web-site-map.com/file.php?n=www.fywarehouse.com&t=1"
-    }
-  ]
+  "rewrites": []
 }

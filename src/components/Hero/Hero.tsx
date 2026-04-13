@@ -1,4 +1,5 @@
 import Image from 'next/image';
+import Link from 'next/link';
 import { Container } from '@/components/Container/Container';
 import { Section } from '@/components/Section/Section';
 import styles from './Hero.module.css';
@@ -16,14 +17,24 @@ export function Hero() {
         priority
         sizes="100vw"
         className={styles.background}
+        style={{ transform: 'scaleY(-1)' }}
       />
       <div className={styles.overlay} />
       <Container size="wide" className={styles.container}>
         <div className={styles.content}>
-          <h1>
-            <strong>Warehousing and Distribution</strong>
-          </h1>
-          <p className={styles.subcopy}>Fast cross-dock handling, bonded cargo support, and local distribution for Montreal freight lanes.</p>
+          <h1>Montreal&apos;s Trusted Warehouse &amp; Logistics Partner</h1>
+          <p className={styles.subcopy}>
+            CBSA-authorized sufferance warehouse offering cross-dock handling,
+            bonded cargo support, and distribution services.
+          </p>
+          <div className={styles.buttons}>
+            <Link href="/contact" className={styles.btnPrimary}>
+              Get a Quote
+            </Link>
+            <Link href="/services" className={styles.btnSecondary}>
+              Our Services
+            </Link>
+          </div>
         </div>
       </Container>
     </Section>

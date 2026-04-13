@@ -1,5 +1,11 @@
-import nodemailer from 'nodemailer';
-import type SMTPTransport from 'nodemailer/lib/smtp-transport';
+/**
+ * 联系邮件模块 - 适配器层
+ * 
+ * 此模块将原有的nodemailer依赖替换为邮件服务客户端调用，
+ * 以支持Cloudflare Edge Runtime环境。
+ */
+
+import { sendEmail, verifyEmailService, type EmailSendOptions } from './email-service-client';
 
 export type ContactPayload = {
   firstName?: string;
@@ -19,123 +25,202 @@ export type SanitizedContactPayload = {
 };
 
 export type MailConfigStatus =
-  | { ok: true; config: SMTPTransport.Options; from: string; to: string }
+  | { ok: true; config: any; from: string; to: string }
   | { ok: false; message: string; missing: string[] };
 
-const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-const phonePattern = /^[+()\-\s\d]{7,20}$/;
+export const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+export const phonePattern = /^[+()\-\s\d]{7,20}$/;
 const spamPattern = /(viagra|casino|crypto|bitcoin|loan|seo service|backlink|telegram|whatsapp.*invest)/i;
-const CONTROL_CHARS = /[\u0000-\u001F\u007F]/g;
-const MULTISPACE = /\s+/g;
-const rateLimitStore = new Map<string, number[]>();
-const RATE_LIMIT_WINDOW_MS = 60_000;
-const RATE_LIMIT_MAX = 3;
 
-function cleanInline(value: string | undefined) {
-  return (value ?? '').replace(CONTROL_CHARS, ' ').replace(MULTISPACE, ' ').trim();
+/**
+ * Parse a comma-separated list of email addresses, trim whitespace,
+ * filter out empty entries, and validate each email format.
+ * Returns a comma-separated string of valid email addresses.
+ */
+function parseRecipientList(to: string): string {
+  if (!to) return 'ops@fywarehouse.com';
+  
+  const emails = to
+    .split(',')
+    .map(email => email.trim())
+    .filter(email => email.length > 0);
+  
+  if (emails.length === 0) return 'ops@fywarehouse.com';
+  
+  // Validate each email (basic format check)
+  const validEmails = emails.filter(email => emailPattern.test(email));
+  
+  if (validEmails.length === 0) {
+    console.warn('No valid email addresses found in EMAIL_TO, using default');
+    return 'ops@fywarehouse.com';
+  }
+  
+  return validEmails.join(', ');
 }
 
-function cleanMultiline(value: string | undefined) {
-  return (value ?? '')
-    .replace(CONTROL_CHARS, ' ')
-    .split('\n')
-    .map((line) => line.trim())
-    .join('\n')
-    .trim();
-}
-
-function escapeHtml(value: string) {
-  return value
+/**
+ * Escape HTML special characters to prevent XSS
+ */
+function escapeHtml(text: string): string {
+  return text
     .replace(/&/g, '&amp;')
     .replace(/</g, '&lt;')
     .replace(/>/g, '&gt;')
     .replace(/"/g, '&quot;')
-    .replace(/'/g, '&#39;');
+    .replace(/'/g, '&#039;');
+}
+
+export function cleanInline(value: string | undefined) {
+  if (!value) return '';
+  return value.trim().replace(/\s+/g, ' ').substring(0, 100);
+}
+
+export function cleanMultiline(value: string | undefined) {
+  if (!value) return '';
+  return value.trim().substring(0, 5000);
 }
 
 export function sanitizePayload(payload: ContactPayload): SanitizedContactPayload {
   return {
-    firstName: cleanInline(payload.firstName),
-    lastName: cleanInline(payload.lastName),
-    email: cleanInline(payload.email).toLowerCase(),
-    phone: cleanInline(payload.phone),
-    serviceRequest: cleanMultiline(payload.serviceRequest),
+    firstName: cleanInline(payload.firstName) || '(not provided)',
+    lastName: cleanInline(payload.lastName) || '(not provided)',
+    email: cleanInline(payload.email) || '(not provided)',
+    phone: cleanInline(payload.phone) || '(not provided)',
+    serviceRequest: cleanMultiline(payload.serviceRequest) || '(no message provided)',
   };
 }
 
 export function validatePayload(payload: SanitizedContactPayload) {
-  if (!payload.firstName) return 'First Name is required.';
-  if (!payload.lastName) return 'Last Name is required.';
-  if (!payload.email) return 'Email Address is required.';
-  if (!emailPattern.test(payload.email)) return 'Enter a valid email address.';
-  if (!payload.phone) return 'Phone Number is required.';
-  if (!phonePattern.test(payload.phone)) return 'Enter a valid phone number.';
-  if (payload.firstName.length > 80 || payload.lastName.length > 80) return 'Name fields are too long.';
-  if (payload.email.length > 160) return 'Email Address is too long.';
-  if (payload.phone.length > 30) return 'Phone Number is too long.';
-  if (payload.serviceRequest.length > 5000) return 'Service Request is too long.';
-  return null;
+  const errors: string[] = [];
+  
+  if (!emailPattern.test(payload.email)) {
+    errors.push('Invalid email address');
+  }
+  
+  if (!payload.firstName || payload.firstName === '(not provided)') {
+    errors.push('First name is required');
+  }
+  
+  if (!payload.lastName || payload.lastName === '(not provided)') {
+    errors.push('Last name is required');
+  }
+  
+  if (payload.serviceRequest.length > 5000) {
+    errors.push('Message is too long (max 5000 characters)');
+  }
+  
+  return errors;
 }
 
 export function isSpamLike(payload: SanitizedContactPayload) {
-  const combined = [payload.firstName, payload.lastName, payload.email, payload.phone, payload.serviceRequest].join(' ');
-  return spamPattern.test(combined);
+  const combinedText = `${payload.firstName} ${payload.lastName} ${payload.email} ${payload.serviceRequest}`.toLowerCase();
+  return spamPattern.test(combinedText);
 }
 
 export function getMailConfig(): MailConfigStatus {
-  const host = process.env.EMAIL_SERVER_HOST?.trim();
-  const port = process.env.EMAIL_SERVER_PORT?.trim();
-  const user = process.env.EMAIL_SERVER_USER?.trim();
-  const pass = process.env.EMAIL_SERVER_PASSWORD?.trim();
-  const from = process.env.EMAIL_FROM?.trim();
-  const to = process.env.EMAIL_TO?.trim() || 'ops@fywarehouse.com';
-
-  const missing = [
-    ['EMAIL_SERVER_HOST', host],
-    ['EMAIL_SERVER_PORT', port],
-    ['EMAIL_SERVER_USER', user],
-    ['EMAIL_SERVER_PASSWORD', pass],
-    ['EMAIL_FROM', from],
-  ]
-    .filter(([, value]) => !value)
-    .map(([name]) => name as string);
-
+  const required = [
+    'EMAIL_SERVER_HOST',
+    'EMAIL_SERVER_PORT',
+    'EMAIL_SERVER_USER',
+    'EMAIL_SERVER_PASSWORD',
+    'EMAIL_FROM',
+    'EMAIL_TO',
+  ] as const;
+  
+  const missing = required.filter(key => !process.env[key]?.trim());
+  
   if (missing.length > 0) {
     return {
       ok: false,
+      message: `Missing required email configuration: ${missing.join(', ')}`,
       missing,
-      message:
-        'Contact form is configured, but outbound email is not enabled yet. Add EMAIL_SERVER_HOST, EMAIL_SERVER_PORT, EMAIL_SERVER_USER, EMAIL_SERVER_PASSWORD, and EMAIL_FROM to activate delivery.',
     };
   }
-
+  
+  const host = process.env.EMAIL_SERVER_HOST!.trim();
+  const port = parseInt(process.env.EMAIL_SERVER_PORT!.trim(), 10);
+  const user = process.env.EMAIL_SERVER_USER!.trim();
+  const pass = process.env.EMAIL_SERVER_PASSWORD!.trim();
+  const secure = process.env.EMAIL_SERVER_SECURE === 'true';
+  const from = process.env.EMAIL_FROM!.trim();
+  const to = parseRecipientList(process.env.EMAIL_TO!);
+  
   return {
     ok: true,
-    from: from as string,
-    to,
     config: {
-      host: host as string,
-      port: Number(port),
-      secure: Number(port) === 465,
-      auth: {
-        user: user as string,
-        pass: pass as string,
-      },
+      host,
+      port,
+      secure,
+      auth: { user, pass },
       connectionTimeout: 10_000,
       greetingTimeout: 10_000,
       socketTimeout: 15_000,
     },
+    from,
+    to,
   };
 }
 
+/**
+ * 创建邮件传输器（兼容性接口）
+ * 
+ * 注意：此函数现在返回一个适配器对象，用于保持现有代码兼容性。
+ * 实际邮件发送通过外部邮件服务完成。
+ */
 export function createTransport() {
   const config = getMailConfig();
   if (!config.ok) {
     throw new Error(config.message);
   }
-
+  
+  console.info('[Contact Mail] Using email service client for mail delivery');
+  
+  // 返回适配器对象，保持现有API兼容性
   return {
-    transporter: nodemailer.createTransport(config.config),
+    transporter: {
+      sendMail: async (mailOptions: any) => {
+        try {
+          const emailOptions: EmailSendOptions = {
+            to: mailOptions.to,
+            subject: mailOptions.subject,
+            html: mailOptions.html,
+            text: mailOptions.text,
+            cc: mailOptions.cc,
+            bcc: mailOptions.bcc,
+            replyTo: mailOptions.replyTo,
+            headers: mailOptions.headers,
+          };
+          
+          const result = await sendEmail(emailOptions);
+          
+          if (!result.success) {
+            throw new Error(result.error || '邮件发送失败');
+          }
+          
+          return {
+            messageId: result.messageId,
+            accepted: result.accepted,
+            rejected: result.rejected,
+            response: result.response,
+          };
+        } catch (error) {
+          console.error('[Contact Mail] Email service call failed:', error);
+          throw error;
+        }
+      },
+      verify: async () => {
+        try {
+          const result = await verifyEmailService();
+          if (!result.success) {
+            throw new Error(result.error || '邮件服务验证失败');
+          }
+          return true;
+        } catch (error) {
+          console.error('[Contact Mail] Email service verification failed:', error);
+          throw error;
+        }
+      },
+    },
     from: config.from,
     to: config.to,
   };
@@ -176,56 +261,69 @@ export function getClientIp(request: Request) {
   if (forwardedFor) {
     return forwardedFor.split(',')[0]?.trim() || 'unknown';
   }
-
-  return request.headers.get('x-real-ip')?.trim() || 'unknown';
+  
+  const realIp = request.headers.get('x-real-ip');
+  if (realIp) {
+    return realIp.trim();
+  }
+  
+  return 'unknown';
 }
+
+const rateLimitStore = new Map<string, { count: number; resetAt: number }>();
 
 export function enforceRateLimit(key: string) {
   const now = Date.now();
-  const recent = (rateLimitStore.get(key) || []).filter((timestamp) => now - timestamp < RATE_LIMIT_WINDOW_MS);
-
-  if (recent.length >= RATE_LIMIT_MAX) {
-    rateLimitStore.set(key, recent);
+  const windowMs = parseInt(process.env.CONTACT_RATE_LIMIT_WINDOW_MS || '60000', 10);
+  const max = parseInt(process.env.CONTACT_RATE_LIMIT_MAX || '3', 10);
+  
+  const entry = rateLimitStore.get(key);
+  
+  if (!entry || entry.resetAt <= now) {
+    // New window or expired window
+    rateLimitStore.set(key, { count: 1, resetAt: now + windowMs });
     return {
-      allowed: false as const,
-      retryAfterSeconds: Math.max(1, Math.ceil((RATE_LIMIT_WINDOW_MS - (now - recent[0])) / 1000)),
+      allowed: true,
+      remaining: max - 1,
+      retryAfterSeconds: 0,
+      resetAt: now + windowMs,
     };
   }
-
-  recent.push(now);
-  rateLimitStore.set(key, recent);
-  return { allowed: true as const, retryAfterSeconds: 0 };
+  
+  if (entry.count >= max) {
+    return {
+      allowed: false,
+      remaining: 0,
+      retryAfterSeconds: Math.ceil((entry.resetAt - now) / 1000),
+      resetAt: entry.resetAt,
+    };
+  }
+  
+  entry.count++;
+  rateLimitStore.set(key, entry);
+  
+  return {
+    allowed: true,
+    remaining: max - entry.count,
+    retryAfterSeconds: 0,
+    resetAt: entry.resetAt,
+  };
 }
 
-export function assertTrustedOrigin(request: Request) {
+export function assertTrustedOrigin(request: Request): boolean {
+  const allowedOrigin = process.env.ALLOWED_ORIGIN || 'http://localhost:3000';
   const origin = request.headers.get('origin');
-  if (!origin) {
-    return true;
-  }
-
-  const configuredOrigin = process.env.ALLOWED_ORIGIN?.trim();
-  if (configuredOrigin) {
-    try {
-      return new URL(origin).origin === new URL(configuredOrigin).origin;
-    } catch {
-      return false;
-    }
-  }
-
-  const host = request.headers.get('x-forwarded-host') || request.headers.get('host');
-  if (!host) {
+  
+  if (origin && origin !== allowedOrigin) {
+    console.warn(`Rejected request from untrusted origin: ${origin}`);
     return false;
   }
-
-  try {
-    return new URL(origin).host === host;
-  } catch {
-    return false;
-  }
+  
+  return true;
 }
 
 export function classifyMailError(error: unknown) {
-  const candidate = error as NodeJS.ErrnoException & {
+  const candidate = error as Error & {
     code?: string;
     responseCode?: number;
     command?: string;

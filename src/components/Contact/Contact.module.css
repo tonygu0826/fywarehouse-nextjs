@@ -169,6 +169,31 @@ a.infoValue:active {
   line-height: 1.45;
 }
 
+.fieldMeta {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.counter {
+  margin: 8px 0 0;
+  color: var(--color-subtext);
+  font-size: 12px;
+  line-height: 1.45;
+  white-space: nowrap;
+}
+
+.honeypot {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
 .actions {
   display: flex;
   align-items: center;
@@ -288,6 +313,16 @@ a.infoValue:active {
 
   .textarea {
     min-height: 172px;
+  }
+
+  .fieldMeta {
+    flex-direction: column;
+    gap: 0;
+  }
+
+  .counter {
+    margin-top: 4px;
+    font-size: var(--font-size-detail-mobile);
   }
 
   .actions {

@@ -15,6 +15,7 @@ const services = [
     imageFallbackSrc: `${fallbackBaseUrl}/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=1600&q=85`,
     imageAlt: 'Workers handling in-bond cargo inside the warehouse',
     copySource: 'live-site' as const,
+    slug: 'in-bond-cargo-handling',
   },
   {
     title: 'Consolidation /De-consolidation',
@@ -24,6 +25,7 @@ const services = [
     imageFallbackSrc: `${fallbackBaseUrl}/photo-1617957743098-5e16907f288f?auto=format&fit=crop&w=1600&q=85`,
     imageAlt: 'Consolidated freight prepared on a warehouse dock',
     copySource: 'live-site' as const,
+    slug: 'consolidation-deconsolidation',
   },
   {
     title: '24/7 Access',
@@ -33,6 +35,7 @@ const services = [
     imageFallbackSrc: `${fallbackBaseUrl}/photo-1553413077-190dd305871c?auto=format&fit=crop&w=1600&q=85`,
     imageAlt: 'FY Warehouse loading area with round-the-clock access',
     copySource: 'live-site' as const,
+    slug: 'warehousing-distribution',
   },
   {
     title: 'Local Delivery',
@@ -42,6 +45,7 @@ const services = [
     imageFallbackSrc: `${fallbackBaseUrl}/photo-1519003722824-194d4455a60c?auto=format&fit=crop&w=1600&q=85`,
     imageAlt: 'Truck staged for local delivery service',
     copySource: 'live-site' as const,
+    slug: 'local-delivery',
   },
   {
     title: 'Re-palletizing or Re-crating',
@@ -51,6 +55,7 @@ const services = [
     imageFallbackSrc: `${fallbackBaseUrl}/photo-1565793298595-6a879b1d9492?auto=format&fit=crop&w=1600&q=85`,
     imageAlt: 'Cargo being re-palletized or re-crated for compliant transport',
     copySource: 'live-site' as const,
+    slug: 'repalletizing-recrating',
   },
 ] as const;
 
@@ -59,12 +64,18 @@ export function Services() {
     <Section id="services" className={styles.services}>
       <Container>
         <div className={styles.header}>
-          {/* ui-ux-design review: section heading locked to 36px tier with container rhythm preserved */}
-          <h2>Sufferance Warehouse Services</h2>
+          <h2>Our Warehouse &amp; Logistics Services</h2>
+          <div className={styles.decorLine} />
+          <p>Comprehensive solutions for your cross-border freight and warehousing needs</p>
         </div>
         <div className={styles.list}>
           {services.map((service, index) => (
-            <ServiceCard key={service.title} {...service} reverse={index % 2 === 1} />
+            <ServiceCard
+              key={service.title}
+              {...service}
+              index={index}
+              reverse={index % 2 === 1}
+            />
           ))}
         </div>
       </Container>

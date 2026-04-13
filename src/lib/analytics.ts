@@ -1,4 +1,8 @@
-export const GA_MEASUREMENT_ID = process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID?.trim() ?? '';
+export const GA_MEASUREMENT_IDS = (process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID ?? '')
+  .split(',')
+  .map((id) => id.trim())
+  .filter(Boolean);
+export const GA_MEASUREMENT_ID = GA_MEASUREMENT_IDS[0] ?? '';
 export const GTM_ID = process.env.NEXT_PUBLIC_GTM_ID?.trim() ?? '';
 export const ANALYTICS_CONSENT_KEY = 'fywarehouse-analytics-consent';
 
@@ -63,9 +67,11 @@ export function trackPageView(url: string) {
     return;
   }
 
-  window.gtag('config', GA_MEASUREMENT_ID, {
-    page_path: url,
-  });
+  for (const id of GA_MEASUREMENT_IDS) {
+    window.gtag('config', id, {
+      page_path: url,
+    });
+  }
 
   pushToDataLayer('page_view', {
     page_path: url,

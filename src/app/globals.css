@@ -1,27 +1,68 @@
 :root {
-  --color-primary: #2979ff;
-  --color-primary-hover: #5393ff;
-  --color-deep-blue: #0047c2;
-  --color-navy: #00225c;
-  --color-hover-blue: #eaf2ff;
-  --color-title: #1d2023;
-  --color-text: #50555c;
-  --color-subtext: #374151;
-  --color-white: #ffffff;
-  --color-black: #000000;
-  --color-bg-light-blue: #e5efff;
-  --color-panel-gray: #f4f6f8;
+  /* 从 fywarehouse.com 提取的品牌色 */
+  --color-primary: #0f3d91;        /* 主蓝色 - 调亮后更现代 */
+  --color-primary-light: #98f7e8;  /* 浅青色 - 官网装饰色 */
+  --color-primary-accent: #9ef1f8; /* 浅天蓝色 - 官网高亮色 */
+  --color-black: #000000;          /* 黑色 - 正文 */
+  --color-white: #ffffff;          /* 白色 - 背景 */
+  
+  /* 语义颜色 */
+  --color-success: #10b981;
+  --color-error: #ef4444;
+  --color-warning: #f59e0b;
+  
+  /* 中性色阶 (基于官网色调调整) */
+  --color-neutral-50: #f8fafc;
+  --color-neutral-100: #f1f5f9;
+  --color-neutral-200: #e2e8f0;
+  --color-neutral-300: #cbd5e1;
+  --color-neutral-400: #94a3b8;
+  --color-neutral-500: #64748b;
+  --color-neutral-600: #475569;
+  --color-neutral-700: #334155;
+  --color-neutral-800: #1e293b;
+  --color-neutral-900: #0f172a;
+  
+  /* 工具网站专用颜色 */
+  --color-tool-bg: #f9fafb;
+  --color-tool-panel: #ffffff;
+  --color-tool-border: rgba(0, 17, 96, 0.08);
+  --color-tool-shadow: rgba(10, 31, 57, 0.08);
+  
+  /* 排版颜色 */
+  --color-title: #0f172a;
+  --color-text: #334155;
+  --color-subtext: #64748b;
+  --color-muted: #94a3b8;
+  
+  /* 容器尺寸 */
   --container-normal: 1000px;
   --container-wide: 1200px;
   --container-narrow: 800px;
   --mobile-breakpoint: 727px;
+  
+  /* 间距系统 (8px基准) */
+  --space-1: 0.25rem;   /* 4px */
+  --space-2: 0.5rem;    /* 8px */
+  --space-3: 0.75rem;   /* 12px */
+  --space-4: 1rem;      /* 16px */
+  --space-6: 1.5rem;    /* 24px */
+  --space-8: 2rem;      /* 32px */
+  --space-12: 3rem;     /* 48px */
+  --space-16: 4rem;     /* 64px */
+  
+  /* 版面间距 */
   --section-padding-desktop: 40px 0;
   --section-padding-mobile: 27px 0;
   --space-section-desktop: 40px;
   --space-section-mobile: 27px;
   --space-card-desktop: 40px;
   --space-card-mobile: 27px;
+  
+  /* 交互尺寸 */
   --touch-target-min: 44px;
+  
+  /* 头部样式 */
   --header-shadow: inset 0 -1px 0 rgba(0, 0, 0, 0.12);
   --header-link-padding-y: 22px;
   --header-link-padding-x: 16px;
@@ -29,6 +70,8 @@
   --header-logo-max-height: 62.72px;
   --header-topbar-padding: 8px 0;
   --header-nav-font-size: 18px;
+  
+  /* 字体系统 */
   --body-font-family: var(--font-primary), var(--font-fallback), sans-serif;
   --font-size-hero-mobile: 34px;
   --font-size-section-mobile: 28px;
@@ -38,6 +81,25 @@
   --font-size-detail-mobile: 13px;
   --line-height-mobile-title: 1.24;
   --line-height-mobile-copy: 1.6;
+  
+  /* 圆角系统 */
+  --radius-sm: 0.25rem;   /* 4px */
+  --radius-md: 0.5rem;    /* 8px */
+  --radius-lg: 0.75rem;   /* 12px */
+  --radius-xl: 1rem;      /* 16px */
+  --radius-2xl: 1.5rem;   /* 24px */
+  --radius-full: 9999px;
+  
+  /* 阴影系统 */
+  --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+  --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+  --shadow-2xl: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+
+  /* 渐变系统 */
+  --gradient-accent: linear-gradient(135deg, #98f7e8, #9ef1f8);
+  --gradient-cta: linear-gradient(135deg, #0f3d91, #1a4fad);
 }
 
 * {
@@ -56,8 +118,7 @@ body {
   font-family: var(--body-font-family);
   color: #50555c;
   color: var(--color-text);
-  background: #ffffff;
-  background: var(--color-white);
+  background: #fafbfc;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -85,7 +146,14 @@ button,
 
 img {
   max-width: 100%;
+  height: auto;
   display: block;
+}
+
+/* Prevent CLS for images inside article content */
+article img,
+.content img {
+  aspect-ratio: attr(width) / attr(height);
 }
 
 ul {
@@ -126,4 +194,10 @@ main {
     --space-section-desktop: 64px;
     --space-card-desktop: 56px;
   }
+}
+
+/* Crisp chat button — larger & more visible */
+.crisp-client .crisp-1srata .crisp-kquevr {
+  width: 70px !important;
+  height: 70px !important;
 }

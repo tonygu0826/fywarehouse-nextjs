@@ -1,7 +1,7 @@
 'use client';
 
 import Image, { type ImageProps } from 'next/image';
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import styles from './ImageWithFallback.module.css';
 
 type ImageWithFallbackProps = Omit<ImageProps, 'src'> & {
@@ -24,6 +24,11 @@ export function ImageWithFallback({
   const [currentSrc, setCurrentSrc] = useState(src);
   const [isLoaded, setIsLoaded] = useState(false);
 
+  useEffect(() => {
+    setCurrentSrc(src);
+    setIsLoaded(false);
+  }, [src]);
+
   const wrapperClasses = useMemo(
     () => `${styles.wrapper} ${showSkeleton && !isLoaded ? styles.loading : ''} ${wrapperClassName}`.trim(),
     [isLoaded, showSkeleton, wrapperClassName],
@@ -39,6 +44,7 @@ export function ImageWithFallback({
         onError={() => {
           if (fallbackSrc && currentSrc !== fallbackSrc) {
             setCurrentSrc(fallbackSrc);
+            setIsLoaded(false);
             return;
           }
 

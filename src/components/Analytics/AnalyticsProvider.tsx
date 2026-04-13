@@ -3,7 +3,7 @@
 import Script from 'next/script';
 import { useEffect } from 'react';
 import { usePathname } from 'next/navigation';
-import { GA_MEASUREMENT_ID, GTM_ID, ensureDataLayer, hasAnalyticsConfig, isProductionAnalyticsEnabled, trackPageView } from '@/lib/analytics';
+import { GTM_ID, ensureDataLayer, hasAnalyticsConfig, isProductionAnalyticsEnabled, trackPageView } from '@/lib/analytics';
 
 type AnalyticsProviderProps = {
   consentGranted: boolean;
@@ -51,18 +51,7 @@ export function AnalyticsProvider({ consentGranted }: AnalyticsProviderProps) {
         </>
       ) : null}
 
-      {GA_MEASUREMENT_ID ? (
-        <>
-          <Script src={`https://www.googletagmanager.com/gtag/js?id=${GA_MEASUREMENT_ID}`} strategy="afterInteractive" />
-          <Script
-            id="fywarehouse-ga4"
-            strategy="afterInteractive"
-            dangerouslySetInnerHTML={{
-              __html: `window.dataLayer = window.dataLayer || []; function gtag(){dataLayer.push(arguments);} window.gtag = gtag; gtag('js', new Date()); gtag('consent', 'default', { analytics_storage: 'granted' }); gtag('config', '${GA_MEASUREMENT_ID}', { send_page_view: false, anonymize_ip: true });`,
-            }}
-          />
-        </>
-      ) : null}
+      {/* GA gtag.js is loaded unconditionally in src/app/layout.tsx for G-HY3YP9YVPW, G-HD9MSP5L8G, G-VWSC3KX9BD. */}
     </>
   );
 }

@@ -1,5 +1,6 @@
 .section {
   padding: var(--section-padding-desktop);
+  border-bottom: 1px solid rgba(0, 17, 96, 0.06);
 }
 
 @media (max-width: 727px) {

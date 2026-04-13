@@ -13,6 +13,9 @@ import {
   type ContactPayload,
   validatePayload,
 } from '@/lib/contact-mail';
+import { upsertWebsiteContactLead } from '@/lib/fymail';
+
+export const runtime = 'edge';
 
 export async function POST(request: Request) {
   const startedAt = Date.now();
@@ -39,6 +42,12 @@ export async function POST(request: Request) {
 
   try {
     const rawPayload = (await request.json()) as ContactPayload;
+
+    if ((rawPayload.recaptcha ?? '').trim()) {
+      logContactEvent('blocked.honeypot', { clientIp });
+      return NextResponse.json({ message: 'Unable to submit the contact form right now.' }, { status: 400 });
+    }
+
     const payload = sanitizePayload(rawPayload);
     const validationError = validatePayload(payload);
 
@@ -75,6 +84,21 @@ export async function POST(request: Request) {
       response: info.response,
       messageId: info.messageId,
     });
+
+    try {
+      const syncedContact = await upsertWebsiteContactLead(payload);
+      logContactEvent('fymail.contact_synced', {
+        clientIp,
+        fymailContactId: syncedContact.id,
+        email: syncedContact.email,
+      });
+    } catch (syncError) {
+      logContactEvent('fymail.contact_sync_failed', {
+        clientIp,
+        email: payload.email,
+        errorMessage: syncError instanceof Error ? syncError.message : 'Unknown error',
+      });
+    }
 
     return NextResponse.json({
       message: 'Thanks. Our Client Services team will contact you shortly.',

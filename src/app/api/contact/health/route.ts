@@ -1,6 +1,8 @@
 import { NextResponse } from 'next/server';
 import { classifyMailError, getMailConfig, logContactEvent, verifyMailTransport } from '@/lib/contact-mail';
 
+export const runtime = 'edge';
+
 export async function GET() {
   const mailConfig = getMailConfig();
 

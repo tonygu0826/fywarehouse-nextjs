@@ -37,12 +37,7 @@
   [headers.values]
     Cache-Control = "no-store"
 
-# External sitemap passthrough
-[[redirects]]
-  from = "/sitemap.xml"
-  to = "https://www.web-site-map.com/file.php?n=www.fywarehouse.com&t=1"
-  status = 200
-  force = true
+# Sitemap is now generated internally by src/app/sitemap.ts
 
 # Environment variables to set in Netlify UI:
 # NEXT_PUBLIC_GOOGLE_MAPS_API_KEY

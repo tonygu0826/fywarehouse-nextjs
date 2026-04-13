@@ -75,14 +75,13 @@
   transition: background-color 160ms ease, color 160ms ease, transform 160ms ease;
 }
 
-.navItem:first-child .navLink {
+.navLinkActive {
   background: var(--color-primary);
   color: var(--color-white);
 }
 
-.navItem:not(:first-child) .navLink:hover,
-.navItem:not(:first-child) .navLink:focus-visible,
-.navItem:not(:first-child) .navLink:active {
+.navLink:hover,
+.navLink:focus-visible {
   background: var(--color-primary);
   color: var(--color-white);
 }
@@ -91,16 +90,207 @@
   transform: translateY(1px);
 }
 
-@media (max-width: 727px) {
+/* ── Hamburger button (mobile only) ── */
+.hamburger {
+  display: none;
+  flex-direction: column;
+  justify-content: center;
+  gap: 5px;
+  width: 40px;
+  height: 40px;
+  padding: 8px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  z-index: 32;
+}
+
+.hamburgerLine {
+  display: block;
+  width: 24px;
+  height: 2.5px;
+  background: var(--color-black);
+  border-radius: 2px;
+  transition: transform 0.3s ease, opacity 0.3s ease;
+}
+
+/* X animation when open */
+.hamburger .hamburgerLine:nth-child(1).hamburgerOpen {
+  transform: translateY(7.5px) rotate(45deg);
+}
+
+.hamburger .hamburgerLine:nth-child(2).hamburgerOpen {
+  opacity: 0;
+}
+
+.hamburger .hamburgerLine:nth-child(3).hamburgerOpen {
+  transform: translateY(-7.5px) rotate(-45deg);
+}
+
+/* ── Drawer (mobile slide-in menu) ── */
+.drawer {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 280px;
+  max-width: 85vw;
+  height: 100vh;
+  height: 100dvh;
+  background: var(--color-white);
+  box-shadow: 4px 0 24px rgba(0, 0, 0, 0.15);
+  z-index: 31;
+  transform: translateX(-100%);
+  transition: transform 0.3s ease;
+  overflow-y: auto;
+  display: none;
+}
+
+.drawerOpen {
+  transform: translateX(0);
+}
+
+.drawerHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 20px;
+  border-bottom: 1px solid #eee;
+}
+
+.drawerLogoLink {
+  display: inline-flex;
+}
+
+.drawerLogo {
+  width: auto;
+  height: auto;
+  max-width: 120px;
+  max-height: 40px;
+  border-radius: 6px;
+}
+
+.drawerClose {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: var(--color-text);
+  border-radius: 50%;
+  transition: background 0.2s;
+}
+
+.drawerClose:hover {
+  background: #f0f0f0;
+}
+
+.drawerList {
+  list-style: none;
+  padding: 12px 0;
+  margin: 0;
+}
+
+.drawerLink {
+  display: block;
+  padding: 14px 24px;
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--color-black);
+  text-decoration: none;
+  transition: background 0.2s;
+}
+
+.drawerLinkActive {
+  background: var(--color-primary);
+  color: var(--color-white);
+}
+
+.drawerLink:hover,
+.drawerLink:focus-visible {
+  background: var(--color-panel-gray, #f5f5f5);
+  color: var(--color-primary);
+}
+
+.drawerContact {
+  padding: 16px 24px;
+  border-top: 1px solid #eee;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.drawerContactLink {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 14px;
+  color: var(--color-text);
+  text-decoration: none;
+  transition: color 0.2s;
+}
+
+.drawerContactLink:hover {
+  color: var(--color-primary);
+}
+
+/* ── Overlay ── */
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.4);
+  z-index: 30;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease;
+  display: none;
+}
+
+.overlayVisible {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+/* ── Desktop nav (hidden on mobile) ── */
+.desktopNav {
+  display: block;
+}
+
+@media (max-width: 900px) {
   .topBar {
-    display: none;
+    display: none !important;
+  }
+
+  /* Show hamburger, hide desktop nav */
+  .hamburger {
+    display: flex !important;
+    background: #f0f0f0;
+    border-radius: 6px;
+  }
+
+  .desktopNav {
+    display: none !important;
+  }
+
+  .drawer {
+    display: block !important;
+  }
+
+  .overlay {
+    display: block !important;
   }
 
   .navInner {
-    flex-direction: column;
-    align-items: stretch;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
     gap: 10px;
-    padding: 10px 0 12px;
+    padding: 8px 0;
   }
 
   .logoLink {
@@ -108,27 +298,8 @@
   }
 
   .logo {
-    max-width: 176px;
-    max-height: 55px;
-  }
-
-  .navList {
-    display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 8px;
-  }
-
-  .navItem:last-child {
-    grid-column: 1 / -1;
-  }
-
-  .navLink {
-    width: 100%;
-    min-height: 48px;
-    padding: 12px 10px;
-    font-size: 15px;
-    font-weight: 600;
-    background: var(--color-panel-gray);
+    max-width: 160px;
+    max-height: 50px;
   }
 }
 

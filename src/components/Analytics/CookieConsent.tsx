@@ -54,7 +54,7 @@ export function CookieConsent({ onConsentChange }: CookieConsentProps) {
       <div className={styles.content}>
         <p className={styles.title}>Analytics cookies</p>
         <p className={styles.text}>
-          FY Warehouse uses optional analytics cookies to understand visits, contact-form conversions, and link engagement.
+          FENGYE LOGISTICS uses optional analytics cookies to understand visits, contact-form conversions, and link engagement.
           These scripts stay off until you accept.
         </p>
       </div>

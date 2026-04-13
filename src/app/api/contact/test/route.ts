@@ -1,6 +1,8 @@
 import { NextResponse } from 'next/server';
 import { buildMessage, classifyMailError, createTransport, getMailConfig, logContactEvent } from '@/lib/contact-mail';
 
+export const runtime = 'edge';
+
 export async function POST() {
   if (process.env.NODE_ENV === 'production') {
     return NextResponse.json({ message: 'Test email endpoint is disabled in production.' }, { status: 403 });
