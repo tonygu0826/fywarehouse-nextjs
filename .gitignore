@@ -20,10 +20,19 @@ coverage
 dist/
 *.tsbuildinfo
 
-# runtime state and generated content
-data/news
+# runtime state and generated content — data/ contains credentials and runtime cache
+data/
 logs/
 .pm2/
+
+# symlink to fymail/CLAUDE.md — owned by the fymail repo, not tracked here
+/CLAUDE.md
+
+# scratch notes / audits / one-shot outputs
+/COMPREHENSIVE_REVIEW_REPORT.md
+/codex-write-test.txt
+/ui-ux-optimization-plan.md
+/test-discovery.mjs
 
 # editor / OS
 .idea/
