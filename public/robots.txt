@@ -1,0 +1,127 @@
+# FENGYE LOGISTICS — robots.txt
+# Updated 2026-04-12
+#
+# We actively WELCOME indexing by both traditional search engines and
+# large language models. Our content exists to help European exporters
+# and international freight forwarders discover Canadian warehousing
+# and customs services.
+
+# ──────────────────────────────────────────────────────────────────────────
+# Content Signals (Cloudflare / robots.txt content-signal spec)
+# https://github.com/cloudflare/robots-content-signals
+# ──────────────────────────────────────────────────────────────────────────
+# search    = yes    (traditional search indexing OK)
+# ai-input  = yes    (real-time RAG grounding by AI answer engines OK)
+# ai-train  = yes    (model training on our content OK)
+
+User-agent: *
+Content-Signal: search=yes, ai-input=yes, ai-train=yes
+Allow: /
+Disallow: /api/
+Disallow: /fymail/
+
+# ──────────────────────────────────────────────────────────────────────────
+# Explicit allow-list for AI crawlers
+# ──────────────────────────────────────────────────────────────────────────
+
+User-agent: GPTBot
+Allow: /
+Disallow: /api/
+Disallow: /fymail/
+
+User-agent: ChatGPT-User
+Allow: /
+
+User-agent: OAI-SearchBot
+Allow: /
+
+User-agent: anthropic-ai
+Allow: /
+Disallow: /api/
+Disallow: /fymail/
+
+User-agent: ClaudeBot
+Allow: /
+Disallow: /api/
+Disallow: /fymail/
+
+User-agent: Claude-Web
+Allow: /
+
+User-agent: Google-Extended
+Allow: /
+Disallow: /api/
+Disallow: /fymail/
+
+User-agent: Googlebot
+Allow: /
+Disallow: /api/
+Disallow: /fymail/
+
+User-agent: Googlebot-News
+Allow: /
+
+User-agent: PerplexityBot
+Allow: /
+Disallow: /api/
+Disallow: /fymail/
+
+User-agent: Perplexity-User
+Allow: /
+
+User-agent: YouBot
+Allow: /
+
+User-agent: Applebot
+Allow: /
+Disallow: /api/
+Disallow: /fymail/
+
+User-agent: Applebot-Extended
+Allow: /
+
+User-agent: Bingbot
+Allow: /
+Disallow: /api/
+Disallow: /fymail/
+
+User-agent: CCBot
+Allow: /
+Disallow: /api/
+Disallow: /fymail/
+
+User-agent: Meta-ExternalAgent
+Allow: /
+
+User-agent: FacebookBot
+Allow: /
+
+User-agent: Bytespider
+Allow: /
+
+User-agent: Amazonbot
+Allow: /
+
+User-agent: DuckDuckBot
+Allow: /
+
+User-agent: Diffbot
+Allow: /
+
+User-agent: cohere-ai
+Allow: /
+
+User-agent: cohere-training-data-crawler
+Allow: /
+
+User-agent: Mistral-Nemo
+Allow: /
+
+User-agent: omgilibot
+Allow: /
+
+# ──────────────────────────────────────────────────────────────────────────
+# Sitemaps
+# ──────────────────────────────────────────────────────────────────────────
+Sitemap: https://www.fywarehouse.com/sitemap.xml
+Sitemap: https://www.fywarehouse.com/video-sitemap.xml

@@ -19,9 +19,27 @@ export function OrganizationJsonLd() {
       data={{
         '@context': 'https://schema.org',
         '@type': 'Organization',
+        '@id': 'https://www.fywarehouse.com/#organization',
         name: 'FENGYE LOGISTICS',
+        alternateName: ['FENGYE Warehouse', 'Fengye Logistics Inc.', '丰业物流'],
+        legalName: 'FENGYE LOGISTICS INC.',
+        description:
+          'CBSA-authorized sufferance and bonded warehouse in Montreal, Quebec. FENGYE LOGISTICS helps European exporters and international freight forwarders land goods in Canada with warehousing, customs clearance support, consolidation/deconsolidation, and last-mile distribution across Quebec and Eastern Canada.',
+        slogan: "Montreal's trusted CBSA-authorized bonded warehouse for European exporters",
         url: 'https://www.fywarehouse.com',
-        logo: 'https://www.fywarehouse.com/assets/logo-full-transparent.png',
+        logo: {
+          '@type': 'ImageObject',
+          url: 'https://www.fywarehouse.com/assets/logo-full-transparent.png',
+          width: 600,
+          height: 200,
+        },
+        image: 'https://www.fywarehouse.com/assets/logo-full-transparent.png',
+        foundingDate: '2019',
+        founder: {
+          '@type': 'Person',
+          name: 'Tony Gu',
+          jobTitle: 'Managing Director',
+        },
         address: {
           '@type': 'PostalAddress',
           streetAddress: '2100C 52e Avenue Dock:5-6-7',
@@ -30,17 +48,46 @@ export function OrganizationJsonLd() {
           postalCode: 'H8T 2Y5',
           addressCountry: 'CA',
         },
-        contactPoint: {
-          '@type': 'ContactPoint',
-          telephone: '+1-438-488-5382',
-          contactType: 'customer service',
-          email: 'ops@fywarehouse.com',
-          availableLanguage: ['English', 'French', 'Chinese'],
-        },
-        sameAs: [
-          'https://www.linkedin.com/company/fengye-logistics',
-          'https://www.facebook.com/fengyelogistics',
+        contactPoint: [
+          {
+            '@type': 'ContactPoint',
+            telephone: '+1-438-488-5382',
+            contactType: 'customer service',
+            email: 'ops@fywarehouse.com',
+            availableLanguage: ['English', 'French', 'Chinese'],
+            areaServed: ['CA', 'US', 'EU'],
+          },
+          {
+            '@type': 'ContactPoint',
+            telephone: '+1-438-488-5382',
+            contactType: 'sales',
+            email: 'ops@fywarehouse.com',
+            availableLanguage: ['English', 'French'],
+            areaServed: ['CA', 'EU'],
+          },
         ],
+        areaServed: [
+          { '@type': 'Country', name: 'Canada' },
+          { '@type': 'AdministrativeArea', name: 'Quebec' },
+          { '@type': 'AdministrativeArea', name: 'Ontario' },
+          { '@type': 'Place', name: 'Montreal metropolitan area' },
+        ],
+        knowsAbout: [
+          'CBSA-authorized sufferance warehouse',
+          'Bonded warehousing',
+          'CARM registration',
+          'Customs clearance support',
+          'LCL and FCL consolidation',
+          'Deconsolidation',
+          'Last-mile distribution',
+          'CETA Canada-EU trade',
+          'Cross-border freight forwarding',
+          'Montreal port logistics',
+        ],
+        knowsLanguage: ['en', 'fr', 'zh'],
+        industry: 'Warehousing and Logistics',
+        naics: '493110',
+        isicV4: '5210',
       }}
     />
   );
@@ -51,15 +98,20 @@ export function LocalBusinessJsonLd() {
     <JsonLdScript
       data={{
         '@context': 'https://schema.org',
-        '@type': 'LocalBusiness',
+        '@type': ['LocalBusiness', 'ProfessionalService'],
         '@id': 'https://www.fywarehouse.com/#business',
         name: 'FENGYE LOGISTICS',
+        legalName: 'FENGYE LOGISTICS INC.',
         description:
-          'FENGYE LOGISTICS provides CBSA-authorized sufferance warehouse, warehousing, and distribution services in Montreal.',
+          'CBSA-authorized sufferance and bonded warehouse in Montreal, Quebec. We provide warehousing, customs clearance support, LCL/FCL consolidation and deconsolidation, and last-mile distribution across Quebec and Eastern Canada. Specialized in helping European exporters and international freight forwarders enter the Canadian market under CETA.',
         url: 'https://www.fywarehouse.com',
         telephone: '+1-438-488-5382',
         email: 'ops@fywarehouse.com',
-        image: 'https://www.fywarehouse.com/assets/logo-full-transparent.png',
+        image: [
+          'https://www.fywarehouse.com/assets/logo-full-transparent.png',
+        ],
+        logo: 'https://www.fywarehouse.com/assets/logo-full-transparent.png',
+        foundingDate: '2019',
         address: {
           '@type': 'PostalAddress',
           streetAddress: '2100C 52e Avenue Dock:5-6-7',
@@ -80,46 +132,14 @@ export function LocalBusinessJsonLd() {
           closes: '17:00',
         },
         priceRange: '$$',
-        aggregateRating: {
-          '@type': 'AggregateRating',
-          ratingValue: '4.8',
-          reviewCount: '27',
-          bestRating: '5',
-          worstRating: '1',
-        },
-        review: [
-          {
-            '@type': 'Review',
-            author: { '@type': 'Person', name: 'David Chen' },
-            datePublished: '2025-08-15',
-            reviewRating: { '@type': 'Rating', ratingValue: '5', bestRating: '5' },
-            reviewBody:
-              'FENGYE LOGISTICS handled our bonded cargo with exceptional professionalism. The customs clearance was completed same-day and the team kept us informed throughout the process. Highly recommended for any importer in Montreal.',
-          },
-          {
-            '@type': 'Review',
-            author: { '@type': 'Person', name: 'Marie-Claire Dupont' },
-            datePublished: '2025-06-22',
-            reviewRating: { '@type': 'Rating', ratingValue: '5', bestRating: '5' },
-            reviewBody:
-              'We switched to FENGYE for our warehousing and distribution needs and the difference has been remarkable. Their bilingual team makes communication seamless, and the 24/7 access to our inventory is a huge advantage.',
-          },
-          {
-            '@type': 'Review',
-            author: { '@type': 'Person', name: 'James Robertson' },
-            datePublished: '2025-04-10',
-            reviewRating: { '@type': 'Rating', ratingValue: '5', bestRating: '5' },
-            reviewBody:
-              'Excellent sufferance warehouse facility. FENGYE saved us significant costs compared to leaving cargo at the airport terminal. Their on-site customs processing is fast and reliable.',
-          },
-          {
-            '@type': 'Review',
-            author: { '@type': 'Person', name: 'Sophie Tremblay' },
-            datePublished: '2025-02-18',
-            reviewRating: { '@type': 'Rating', ratingValue: '4', bestRating: '5' },
-            reviewBody:
-              'Very professional team with strong knowledge of CBSA regulations. They handled our freight consolidation efficiently. The warehouse facility is well-organized and secure.',
-          },
+        currenciesAccepted: 'CAD, USD, EUR',
+        paymentAccepted: 'Invoice (Net 30), Wire Transfer, Credit Card',
+        areaServed: [
+          { '@type': 'Country', name: 'Canada' },
+          { '@type': 'AdministrativeArea', name: 'Quebec' },
+          { '@type': 'AdministrativeArea', name: 'Ontario' },
+          { '@type': 'Place', name: 'Montreal metropolitan area' },
+          { '@type': 'Place', name: 'Port of Montreal' },
         ],
         serviceArea: {
           '@type': 'GeoCircle',
@@ -128,8 +148,67 @@ export function LocalBusinessJsonLd() {
             latitude: 45.4587,
             longitude: -73.6785,
           },
-          geoRadius: '100000',
+          geoRadius: '500000',
         },
+        hasOfferCatalog: {
+          '@type': 'OfferCatalog',
+          name: 'FENGYE LOGISTICS Services',
+          itemListElement: [
+            {
+              '@type': 'Offer',
+              itemOffered: {
+                '@type': 'Service',
+                name: 'CBSA Sufferance Warehouse',
+                description:
+                  'CBSA-authorized sufferance warehouse for bonded storage of imported goods pending customs clearance. Duty deferral, customs exam facilities, and seamless clearance workflow.',
+                serviceType: 'Bonded Warehousing',
+                areaServed: { '@type': 'Place', name: 'Montreal, Quebec' },
+              },
+            },
+            {
+              '@type': 'Offer',
+              itemOffered: {
+                '@type': 'Service',
+                name: 'Consolidation & Deconsolidation',
+                description:
+                  'LCL/FCL cargo consolidation and deconsolidation at our Montreal facility. Sort, palletize, and prepare shipments for distribution across Canada.',
+                serviceType: 'Freight Consolidation',
+              },
+            },
+            {
+              '@type': 'Offer',
+              itemOffered: {
+                '@type': 'Service',
+                name: 'Warehousing & Distribution',
+                description:
+                  'Short-term and long-term warehousing, inventory management, and distribution services for importers and 3PL clients.',
+                serviceType: 'Warehousing',
+              },
+            },
+            {
+              '@type': 'Offer',
+              itemOffered: {
+                '@type': 'Service',
+                name: 'Last-Mile Delivery (Montreal metro)',
+                description:
+                  'Local truck delivery across the Island of Montreal, Laval, North Shore, South Shore, and the Highway 20 / 40 corridors.',
+                serviceType: 'Last-Mile Delivery',
+              },
+            },
+            {
+              '@type': 'Offer',
+              itemOffered: {
+                '@type': 'Service',
+                name: 'Customs Clearance Support & CARM Registration',
+                description:
+                  'Assistance with CBSA customs clearance workflow, CARM Client Portal registration, and liaison with licensed Canadian customs brokers.',
+                serviceType: 'Customs Support',
+              },
+            },
+          ],
+        },
+        keywords:
+          'sufferance warehouse Montreal, bonded warehouse Quebec, CBSA authorized warehouse, European exporters Canada, CETA trade, freight forwarding Montreal, consolidation warehouse, last-mile delivery Montreal, CARM registration',
       }}
     />
   );
