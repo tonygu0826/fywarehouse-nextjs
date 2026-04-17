@@ -1,24 +1,63 @@
-import Image from 'next/image';
+'use client';
+
+import { useEffect, useRef, useState } from 'react';
 import Link from 'next/link';
 import { Container } from '@/components/Container/Container';
 import { Section } from '@/components/Section/Section';
 import styles from './Hero.module.css';
 
-const heroImage =
-  'https://images.unsplash.com/photo-1497005367839-6e852de72767?auto=format&fit=crop&w=2000&q=85';
+const VIDEOS = ['/hero/hero-1.mp4', '/hero/hero-2.mp4', '/hero/hero-3.mp4'];
 
 export function Hero() {
+  const videoRefs = [
+    useRef<HTMLVideoElement>(null),
+    useRef<HTMLVideoElement>(null),
+    useRef<HTMLVideoElement>(null),
+  ];
+  const [active, setActive] = useState(0);
+
+  // When active changes: play the active one, pause + rewind the others so
+  // the next cycle starts from frame 0. Non-active videos stay in DOM with
+  // preload="auto" so their first frame is already decoded — crossfade is
+  // seamless (no black flash).
+  useEffect(() => {
+    videoRefs.forEach((ref, i) => {
+      const v = ref.current;
+      if (!v) return;
+      if (i === active) {
+        v.currentTime = 0;
+        v.play().catch(() => {
+          /* autoplay may be blocked before user interaction; browser will
+             resume once hero scrolls into view. Silent. */
+        });
+      } else {
+        v.pause();
+        v.currentTime = 0;
+      }
+    });
+  }, [active]);
+
+  const handleEnded = () => {
+    setActive((i) => (i + 1) % VIDEOS.length);
+  };
+
   return (
     <Section className={styles.hero}>
-      <Image
-        src={heroImage}
-        alt="Warehouse storage and distribution interior"
-        fill
-        priority
-        sizes="100vw"
-        className={styles.background}
-        style={{ transform: 'scaleY(-1)' }}
-      />
+      {VIDEOS.map((src, i) => (
+        <video
+          key={src}
+          ref={videoRefs[i]}
+          src={src}
+          muted
+          playsInline
+          preload="auto"
+          autoPlay={i === 0}
+          onEnded={handleEnded}
+          className={styles.background}
+          style={{ opacity: i === active ? 1 : 0 }}
+          aria-hidden="true"
+        />
+      ))}
       <div className={styles.overlay} />
       <Container size="wide" className={styles.container}>
         <div className={styles.content}>
