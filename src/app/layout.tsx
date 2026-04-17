@@ -77,6 +77,8 @@ export default function RootLayout({ children }: Readonly<{ children: ReactNode 
         <link rel="dns-prefetch" href="https://static.cloudflareinsights.com" />
         <link rel="preconnect" href="https://fonts.googleapis.com" crossOrigin="anonymous" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+        {/* RSS feed discovery — Next.js metadata.alternates.types is unreliable, so render directly */}
+        <link rel="alternate" type="application/rss+xml" title="FENGYE LOGISTICS — News" href="https://www.fywarehouse.com/feed.xml" />
         {/* GEO meta tags for local SEO */}
         <meta name="geo.region" content="CA-QC" />
         <meta name="geo.placename" content="Lachine, Montreal" />
